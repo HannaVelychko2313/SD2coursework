@@ -18,9 +18,12 @@ private:
     std::vector<Product*> _products;
     std::vector<Appointment*> _appointments;
 
-    //headers
-    const std::string _businessName = "";
-    const std::string _businessID = ""; 
+    //business details
+    std::string _businessName = "";
+    std::string _businessID = ""; 
+    std::string _businessPhone = ""; 
+    std::string _businessAddress= ""; 
+
     //helper functions
     void loadCustomers(); // Reads from customers.txt file
     void loadServices(); // Reads from services.txt file
@@ -36,14 +39,40 @@ public:
     // constructor and destructor
     SalonSystem();
     ~SalonSystem();
-    //user roles menu
+    //main menu
     void displayMainMenu();
-    void displayAdminMenu();
+    //user roles menus
     void displayStaffMenu();
+    void displayAdminMenu();
+    //third level of menus for admin
+    void displayAdminCustomerMenu();//1 
+    void displayAdminServiceMenu();//2 done
+    void displayAdminProductMenu();//3 done
+    void displayAdminAppointmentMenu();//4 done
+    void displayAdminGenerateMenu();//5
+    void displayAdminOrderMenu();//6
+    void manageBusinessDetails();//7
+    
+    //third level of menus for staff
+    void displayStaffCustomerMenu();
+    void displayStaffServiceMenu();
+    void displayStaffProductMenu();
+    void displayStaffAppointmentMenu();
+    void displayStaffGenerateMenu();
+    //const void displayAdminOrderMenu();
+    
 
-    // adding customer, service, product
-    void addCustomer(std::string name, std::string phone);
+    // customer management methods
+    void addCustomer(std::string name, std::string phone);//case1 tested
+    void updateCustomerInfo(std::string name);//case 2 tested updates only phone for now
+    void viewCustomer(std::string name);//case3 tested
+    void viewAllCustomers() const;//case4 tested
+    void deleteCustomer(std::string name);//case5 has a bug ID collision after deleting Fix later
+    void viewCustomerAppts(std::string name);//case6 view all appointments
+    
+    //service management methods
     void addService(std::string name, double price, double duration);
+    //product management methods
     void addProduct(std::string name, double price, int stock, std::string expiryDate);
     
     // scheduing, modifying, cancelling, viewing appointments and 

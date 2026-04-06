@@ -55,39 +55,193 @@ catch(invalid_argument e){
 }
 }
 void SalonSystem::displayAdminMenu(){
-
+    int adminChoice = -1;
+    while (adminChoice !=0){
+    cout << "\n-----WELCOME TO THE ADMIN MENU-----" << endl;
     cout << "Press 1 to manage customers" << endl;
     cout << "Press 2 to manage services" << endl;
     cout << "Press 3 to manage products" << endl;
-    cout << "Press 4 to make an order";
-    cout << "Press 5 to manage appointments" << endl;
-    cout << "Press 6 to generate an invoice" << endl;
-    cout << "Press 7 to save and exit" << endl;
+    cout << "Press 4 to manage appointments" << endl;
+    cout << "Press 5 to generate a receipt/invoice" << endl;
+    cout << "Press 6 to place an order" << endl;
+    cout << "Press 7 to manage business owner's details" << endl;
+    cout << "Press 0 to save and exit" << endl;
     cout << "Please make your choice: ";
+    cin >> adminChoice;
+    cin.ignore(1000, '\n'); // Clear buffer
+    //switch for cases
+    switch (adminChoice) {
+            case 1:
+                // call third-level menu for customer management
+                {
+                    displayAdminCustomerMenu();
+                }
+                break;
+            case 2:
+                // all third-level menu for service management
+                {
+                //displayAdminServiceMenu();
+                }
+                /*{
+                    string name;
+                    double price;
+                    double duration;
+                    cout << "Enter service name: " << endl;
+                    getline(cin, name);
+                    cout << "Enter a sevice price: " << endl;
+                    cin>>price;
+                    cout << "Enter duration: " << endl;
+                    cin>> duration;
+                    addService(name, price, duration); 
+            }*/
+                break;
+            case 3:
+            {
+               // displayAdminProductMenu();
+            }
+            break;
+            case 4:
+            {
+                //displayAdminAppointmentMenu();
+            }
+            break;
+
+            case 5: {
+
+            }
+            break;
+            case 5: {
+
+            }
+            break;
+            case 7:
+            {
+                manageBusinessDetails();
+            }
+            break;
+            case 8:
+                cout << "Saving data... Goodbye!" << endl;
+                saveData();
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
 }
 void SalonSystem::displayStaffMenu(){
+    int staffChoice = -1;
+    while (staffChoice !=0){
+    cout << "\n-----WELCOME TO THE STAFF MENU-----" << endl;
     cout << "Press 1 to manage customers" << endl;
     cout << "Press 2 to manage services" << endl;
     cout << "Press 3 to manage products" << endl;
-    cout << "Press 4 to make an order";
-    cout << "Press 5 to manage appointments" << endl;
-    cout << "Press 6 to generate an invoice" << endl;
-    cout << "Press 7 to save and exit" << endl;
+    cout << "Press 4 to manage appointments" << endl;
+    cout << "Press 5 to generate a receipt/invoice" << endl;
+    //cout << "Press 6 to place an order" << endl;
+    cout << "Press 0 to save and exit" << endl;
     cout << "Please make your choice: ";
-
-   
+    cin >> staffChoice;
+    cin.ignore(1000, '\n'); // Clear buffer
+    }
 }
+//third-level menu for admin customer management
+void SalonSystem::displayAdminCustomerMenu(){
+    int adminChoice = -1;
+    while (adminChoice !=0){
+        cout << "\n-----WELCOME TO THE ADMIN CUSTOMER MANAGEMENT-----" << endl;
+        cout << "Press 1 to add a new customer" << endl;
+        cout << "Press 2 to update customer info" << endl;
+        cout << "Press 3 to view a customer" << endl;
+        cout << "Press 4 to view all customers" << endl;
+        cout << "Press 5 to delete a customer" << endl;
+        cout << "Press 6 to view customer appointments" << endl;
+        cout << "Press 0 to go back to admin menu" << endl;
+        cout << "Please make your choice: " << endl;
+        
+        cin >> adminChoice;
 
-/* adding a customer
-void SalonSystem::addCustomer(string name, string phone) {
-    // generating customer ID
-    string id = "C" + std::to_string(_customers.size() + 1);
-    // creating a new object of the class Customer on the heap and storing the address in the pointer
-    Customer* newCustPtr= new Customer(id, name, phone);
-    //pushing the address of the new Customer object to the _customers vector
-    _customers.push_back(newCustPtr);
-    saveCustomers();
-}*/
+        cin.ignore(1000, '\n'); // Clear buffer
+
+        // switch for menu cases
+        switch (adminChoice)
+        {
+        case 1:
+        {
+        string name, phone;
+        cout << "Enter Customer Name: "; 
+        getline(cin, name);
+        cout << "Enter Phone Number: ";
+        getline(cin, phone);
+        addCustomer(name, phone);
+        }
+        break;
+        case 2:
+        {
+            string name;
+            cout << "Please enter customer name: ";
+            getline(cin, name);
+            updateCustomerInfo(name);
+        }
+        break;
+        case 3:
+        {
+            string name;
+            cout << "Please enter customer name: "<<endl; 
+            getline(cin, name);
+            cout << "\n--- BEAUTY SALON CUSTOMER ---" << endl;
+            viewCustomer(name);
+        }
+        break;
+        case 4:
+        {
+            viewAllCustomers();
+        }
+        break;
+        //delete a custome
+        case 5:
+        {   string name;
+            char answer;
+            cout << "Please enter customer name: " << endl;
+            getline(cin, name);
+            cout << "Are you sure you want to delete customer " << name << " permanently? y/n" << endl;
+            cin >> answer;
+            if (answer == 'y')
+            {
+                deleteCustomer(name);
+            }
+            else
+            {
+                cout << "Customer records remain in the system" << endl;
+            }
+        }
+        break;
+
+        //case 6 see all customer records
+        case 6:
+        {   string name;
+            cout << "Please enter customer name: " << endl;
+            getline(cin, name);
+            viewCustomerAppts(name);
+        }
+        break;
+        case 7:
+        {   
+            manageBusinessDetails();
+        }
+        break;
+        //case 0 to return to admin menu
+        case 0:
+            cout<<"Going back to the admin menu. "<<endl;
+            return;
+        //default case
+        default: 
+            cout << "Invalid input. " << endl;
+        break;
+
+        }//end of switch
+    }//end of while
+}//end of functiom
+//customer management case 1
 void SalonSystem::addCustomer(string name, string phone) {
     // 1. Create a temp ID
     string id = "C" + to_string(_customers.size() + 1);
@@ -113,6 +267,115 @@ void SalonSystem::addCustomer(string name, string phone) {
     saveCustomers();
     cout << "Customer " << name << " added successfully!" << endl;
 }
+//case 2
+void SalonSystem::updateCustomerInfo(string name) {
+    Customer* c = findCustomer(name);
+    if (c) {
+        string newPhone;
+        cout << "Current Info: " << endl;
+        c->displayCustomerInfo();
+        cout << "Enter new phone number: ";
+        getline(cin, newPhone);
+        if (c->setPhone(newPhone)) {
+            cout << "Update successful!" << endl;
+            saveCustomers();
+            cout << "Updated customer info: " << endl;
+            viewCustomer(name);
+        }
+    } else {
+        cout << "Customer not found." << endl;
+    }
+}
+//case 3
+void SalonSystem::viewCustomer(string name) {
+    Customer* c = findCustomer(name);
+    if (c) {
+        c->displayCustomerInfo();
+    } else {
+        cout << "Customer not found." << endl;
+    }
+}
+//case 4 view all customers
+void SalonSystem::viewAllCustomers() const {
+    cout << "\n--- BEAUTY SALON CUSTOMERS ---" << endl;
+    if (_customers.empty()) {
+        cout << "No customers found in the system." << endl;
+        return;
+    }
+    for (auto c : _customers)
+            {
+                c->displayCustomerInfo();
+            }
+}
+//case 5 delete a customer
+void SalonSystem::deleteCustomer(string name) {
+    for (auto it = _customers.begin(); it != _customers.end(); ++it) {
+        if ((*it)->getName() == name) {
+            delete *it;            // Free the memory on the heap
+            _customers.erase(it);  // Remove the pointer from the vector
+            saveCustomers();       // Update the .txt file
+            cout << "Customer removed successfully." << endl;
+            return;
+        }
+    }
+    cout << "Customer not found." << endl;
+}
+//case6 view all customer appointments
+void SalonSystem::viewCustomerAppts(string name) {
+    cout << "\n--- APPOINTMENT HISTORY FOR " << name << " ---" << endl;
+    bool found = false;
+    for (auto appt : _appointments) {
+        if (appt->getCustomer()->getName() == name) {
+            appt->displayAppointment();
+            found = true;
+        }
+    }
+    if (!found) cout << "No appointments found for this customer." << endl;
+}
+
+//manage business details case7
+void SalonSystem::manageBusinessDetails() {
+    cout << "\n--- MANAGE BUSINESS DETAILS ---" << endl;
+    cout << "Current Name: " << (_businessName.empty() ? "Not Set" : _businessName) << endl;
+    cout << "Current ID:   " << (_businessID.empty() ? "Not Set" : _businessID) << endl;
+    cout << "-------------------------------" << endl;
+
+    cout << "Enter New Business Name: ";
+    getline(cin, _businessName);
+
+    cout << "Enter New Business ID: ";
+    getline(cin, _businessID);
+
+    // After updating, save all files because the header 
+    // in your .txt files uses these variables
+    saveData(); 
+
+    cout << "\nBusiness details updated and synced to all records!" << endl;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //adding a service
 void SalonSystem::addService(string name, double price, double duration) {
