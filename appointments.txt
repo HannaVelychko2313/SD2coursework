@@ -1,4 +1,0 @@
-Business name: 
-Business ID: 
-A1|07-04-2026|15.00|Trevor|Manicure|NONE
-A2|08-04-2026|16:00|Trevor|Haircut|NONE

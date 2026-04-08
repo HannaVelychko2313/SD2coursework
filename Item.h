@@ -17,7 +17,7 @@ public:
     // setters
     void setID(std::string id);
     void setName(std::string name);
-    void setPrice(double price);
+    bool setPrice(double price);
 
     // getters
     std::string getID() const;

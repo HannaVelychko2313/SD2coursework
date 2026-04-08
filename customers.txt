@@ -1,4 +1,0 @@
-Business name: 
-Business ID: 
-C1|Trevor|1234567890
-C2|Jennifer|56738902590

@@ -51,7 +51,9 @@ public:
     void displayAdminAppointmentMenu();//4 done
     void displayAdminGenerateMenu();//5
     void displayAdminOrderMenu();//6
-    void manageBusinessDetails();//7
+    
+    //owner management
+    void manageBusinessDetails();
     
     //third level of menus for staff
     void displayStaffCustomerMenu();
@@ -71,27 +73,38 @@ public:
     void viewCustomerAppts(std::string name);//case6 view all appointments
     
     //service management methods
-    void addService(std::string name, double price, double duration);
-    //product management methods
-    void addProduct(std::string name, double price, int stock, std::string expiryDate);
+    void addService(std::string name, double price, double duration);//case 1
+    void updateService(std::string name);//case 2
+    void viewService(std::string name);//case 3
+    void viewAllServices() const;//case 4
+    void deleteService(std::string name);//case 5
     
-    // scheduing, modifying, cancelling, viewing appointments and 
-    // checking if staff is busy before creating and appointment or modifying it
-    void scheduleAppointment(std::string custID, std::string servID, std::string date, std::string time);
-    void updateAppointment(std::string apptID, std::string newDate, std::string newTime);
-    void cancelAppointment(std::string apptID);
-    void viewAllAppointments() const;
+    //product management methods
+    void addProduct(std::string name, double price, int stock, std::string expiryDate);//case 1
+    void updateProduct(std::string name);//case 2 
+    void viewProduct(std::string name);//case3 
+    void viewAllProducts() const;//case4 
+    void deleteProducts(std::string name);//case5 
+    
+    
+    // appointment management    
+    void scheduleAppointment(std::string custID, std::string servID, std::string date, std::string time);//case 1
+    void updateAppointment(std::string apptID, std::string newDate, std::string newTime);//case 2
+    void viewAppointment(std::string apptID);                                            // case 3
+    void viewAllAppointments() const;//case 4
+    void cancelAppointment(std::string apptID);//case 5
+   
 
-    // finding customer, service, product  by name and appointment by id
+    // finding customer, service, product  by name 
     Customer* findCustomer(std::string name);
     Service* findService(std::string name);
     Product* findProduct(std::string name);
+    //finding appointment by ID
     Appointment* findAppointment(std::string id);
 
     // loading data from the file and saving data to the file
     void loadData(); // call at startup
     void saveData(); // call at shutdown
-
     
     // helper fuction to add the file header
     void addHeader() const;

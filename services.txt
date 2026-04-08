@@ -1,4 +1,0 @@
-Business name: 
-Business ID: 
-S1|Haircut|25|1
-S2|Manicure|30|0.5

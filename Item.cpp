@@ -35,10 +35,16 @@ void Item::setName(std::string name) {
 
     _name = name;
 }
-
-void Item::setPrice(double price) {
-    if (price < 0) throw std::invalid_argument("Price cannot be negative");
-    _price = price;
+//set price
+bool Item::setPrice(double price) {
+    if (price < 0) {
+        throw std::invalid_argument("Price cannot be negative");
+        return false;
+    }else{
+         _price = price;
+    
+        return true;
+    }
 }
 
 string Item::getID() const { return _id; }

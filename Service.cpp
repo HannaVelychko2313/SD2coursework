@@ -32,4 +32,5 @@ void Service::showInfo() const {
     cout << "Service name: " << _name << endl;
     cout << "Service price: £" << _price << endl;
     cout << "Service duration: " << _duration << endl;
+    cout << "-----------------------" << endl;
 }
