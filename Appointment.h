@@ -34,16 +34,19 @@ public:
     Customer* getCustomer() const;
     Service* getService() const;
     Product* getProduct() const;
-
-    // reschedule appointment
-    void reschedule(std::string newDate, std::string newTime);
-
-    //display appointment 
-    void displayAppointment() const;
-    //cancel appointment
-    
     // convert enum to string for printing/saving
     std::string getStatusString() const;
+
+    // reschedule appointment
+    void rescheduleAppt(std::string newDate, std::string newTime);
+    //display appointment 
+    void displayAppt() const;
+    //complete appointment
+    void completeAppt();
+    // cancel appointment
+    void cancelAppt();
+    //generate invoice
+    void saveInvoiceToFile(std::string businessName, std::string businessID) const;
 };
 
 #endif

@@ -49,8 +49,8 @@ public:
     void displayAdminServiceMenu();//2 done
     void displayAdminProductMenu();//3 done
     void displayAdminAppointmentMenu();//4 done
-    void displayAdminGenerateMenu();//5
-    void displayAdminOrderMenu();//6
+    //void displayAdminFinancialMenu();//5
+    //void displayAdminOrderMenu();//6
     
     //owner management
     void manageBusinessDetails();
@@ -60,8 +60,7 @@ public:
     void displayStaffServiceMenu();
     void displayStaffProductMenu();
     void displayStaffAppointmentMenu();
-    void displayStaffGenerateMenu();
-    //const void displayAdminOrderMenu();
+    
     
 
     // customer management methods
@@ -84,23 +83,24 @@ public:
     void updateProduct(std::string name);//case 2 
     void viewProduct(std::string name);//case3 
     void viewAllProducts() const;//case4 
-    void deleteProducts(std::string name);//case5 
+    void deleteProduct(std::string name);//case5 
     
     
     // appointment management    
-    void scheduleAppointment(std::string custID, std::string servID, std::string date, std::string time);//case 1
-    void updateAppointment(std::string apptID, std::string newDate, std::string newTime);//case 2
-    void viewAppointment(std::string apptID);                                            // case 3
-    void viewAllAppointments() const;//case 4
-    void cancelAppointment(std::string apptID);//case 5
+    void scheduleAppointment(std::string date, std::string time, std::string customerName, std::string serviceName);//case 1
+    void rescheduleAppointment(std::string apptID, std::string newDate, std::string newTime);//case 2
+    void completeAppointment(std::string apptID);//case 3
+    void viewAppointment(std::string apptID)const;// case 4
+    void viewUpcomingAppointments() const;// case 5
+    void viewAllAppointments() const;//case 6
+    void cancelAppointment(std::string apptID);//case 7
    
-
     // finding customer, service, product  by name 
-    Customer* findCustomer(std::string name);
-    Service* findService(std::string name);
-    Product* findProduct(std::string name);
+    Customer* findCustomer(std::string name) const;
+    Service* findService(std::string name) const;
+    Product* findProduct(std::string name)const;
     //finding appointment by ID
-    Appointment* findAppointment(std::string id);
+    Appointment* findAppointment(std::string id) const;
 
     // loading data from the file and saving data to the file
     void loadData(); // call at startup

@@ -1,0 +1,3 @@
+A1|Alice|Admin|admin890
+S1|Bob|Staff|st45
+S2|Charlie|Staff|password123

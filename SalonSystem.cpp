@@ -69,7 +69,6 @@ void SalonSystem::displayAdminMenu(){
     cout << "Press 4 to manage appointments" << endl;
     cout << "Press 5 to generate a receipt/invoice" << endl;
     cout << "Press 6 to place an order" << endl;
-    cout << "Press 7 to manage business owner's details" << endl;
     cout << "Press 0 to save and exit" << endl;
     cout << "Please make your choice: ";
     cin >> adminChoice;
@@ -83,32 +82,22 @@ void SalonSystem::displayAdminMenu(){
                 }
                 break;
             case 2:
-                // all third-level menu for service management
+                // call third-level menu for service management
                 {
-                displayAdminServiceMenu();
+                    displayAdminServiceMenu();
                 }
-                /*{
-                    string name;
-                    double price;
-                    double duration;
-                    cout << "Enter service name: " << endl;
-                    getline(cin, name);
-                    cout << "Enter a sevice price: " << endl;
-                    cin>>price;
-                    cout << "Enter duration: " << endl;
-                    cin>> duration;
-                    addService(name, price, duration); 
-            }*/
                 break;
             case 3:
-            {
-               // displayAdminProductMenu();
-            }
+                //call third-level menu for product management
+                {
+                    displayAdminProductMenu();
+                }
             break;
             case 4:
-            {
-                //displayAdminAppointmentMenu();
-            }
+                // call third-level menu for appointment management
+                {
+                    displayAdminAppointmentMenu();
+                }
             break;
 
             case 5: {
@@ -119,7 +108,8 @@ void SalonSystem::displayAdminMenu(){
 
             }
             break;
-            case 7:
+            
+            case 0:
                 cout << "Saving data... Goodbye!" << endl;
                 saveData();
                 break;
@@ -265,7 +255,7 @@ void SalonSystem::displayAdminServiceMenu (){
         {
         string name;
         double price, duration;
-        cout << "Enter service name: "<<endl;
+        cout << "Enter service name: ";
         getline(cin, name);
         cout << "Enter service price: ";
         cin >> price;
@@ -287,7 +277,7 @@ void SalonSystem::displayAdminServiceMenu (){
         case 3:
         {
             string name;
-            cout << "Please enter service name: "<<endl; 
+            cout << "Please enter service name: "; 
             getline(cin, name);
             cout << "\n--- BEAUTY SALON SERVICE ---" << endl;
             viewService(name);
@@ -303,9 +293,9 @@ void SalonSystem::displayAdminServiceMenu (){
         case 5:
         {   string name;
             char answer;
-            cout << "Please enter service name: " << endl;
+            cout << "Please enter service name: ";
             getline(cin, name);
-            cout << "Are you sure you want to delete the service " << name << " permanently? y/n" << endl;
+            cout << "Are you sure you want to delete the service " << name << " permanently? y/n";
             cin >> answer;
             if (answer == 'y')
             {
@@ -315,6 +305,202 @@ void SalonSystem::displayAdminServiceMenu (){
             {
                 cout << "Service records remain in the system" << endl;
             }
+        }
+        break;
+        //case 0 to return to admin menu
+        case 0:
+            cout<<"Going back to the admin menu. "<<endl;
+            return;
+        //default case
+        default: 
+            cout << "Invalid input. Please try again" << endl;
+        break;
+
+        }//end of switch
+    }//end of while
+}//end of functiom
+
+//third-level menu for admin product management
+void SalonSystem::displayAdminProductMenu (){
+    int adminChoice = -1;
+    while (adminChoice !=0){
+        cout << "\n-----WELCOME TO THE ADMIN PRODUCT MANAGEMENT-----" << endl;
+        cout << "Press 1 to add a new product" << endl;
+        cout << "Press 2 to update product info" << endl;
+        cout << "Press 3 to view a product" << endl;
+        cout << "Press 4 to view all poducts" << endl;
+        cout << "Press 5 to delete a product" << endl;
+        cout << "Press 0 to go back to admin menu" << endl;
+        cout << "Please make your choice: " << endl;
+        
+        cin >> adminChoice;
+
+        cin.ignore(1000, '\n'); // Clear buffer
+
+        // switch for menu cases
+        switch (adminChoice)
+        {
+        //add a product
+        case 1:
+        {
+        string name, expiryDate;
+        int stock;
+        double price;
+        cout << "Enter the product name: "<<endl;
+        getline(cin, name);
+        cout << "Enter the product price: "<<endl;
+        cin >> price;
+        cout << "Enter the product stock: ";
+        cin >> stock;
+        cout << "Enter the product expiry date: ";
+        getline(cin, expiryDate);
+        addProduct(name, price, stock, expiryDate);
+        }
+        break;
+        //update a product
+        case 2:
+        {
+            string name;
+            cout << "Please enter product name: ";
+            getline(cin, name);
+            updateProduct(name);
+        }
+        break;
+        //view a product
+        case 3:
+        {
+            string name;
+            cout << "Please enter the product name: "<<endl; 
+            getline(cin, name);
+            cout << "\n--- BEAUTY SALON PRODUCT---" << endl;
+            viewProduct(name);
+        }
+        break;
+        //view all products
+        case 4:
+        {
+            viewAllProducts();
+        }
+        break;
+        //delete a product
+        case 5:
+        {   string name;
+            char answer;
+            cout << "Please enter the product name: " << endl;
+            getline(cin, name);
+            cout << "Are you sure you want to delete the product " << name << " permanently? y/n" << endl;
+            cin >> answer;
+            if (answer == 'y')
+            {
+                deleteProduct(name);
+            }
+            else
+            {
+                cout << "Product records remain in the system" << endl;
+            }
+        }
+        break;
+        //case 0 to return to admin menu
+        case 0:
+            cout<<"Going back to the admin menu. "<<endl;
+            return;
+        //default case
+        default: 
+            cout << "Invalid input. Please try again" << endl;
+        break;
+
+        }//end of switch
+    }//end of while
+}//end of functiom
+
+//third-level menu for admin appointment management
+void SalonSystem::displayAdminAppointmentMenu (){
+    int adminChoice = -1;
+    while (adminChoice !=0){
+        cout << "\n-----WELCOME TO THE ADMIN APPOINTMENT MANAGEMENT-----" << endl;
+        cout << "Press 1 to schedule an appointment" << endl;
+        cout << "Press 2 to reschedule appointment" << endl;
+        cout << "Press 3 to complete an appointment" << endl;
+        cout << "Press 4 to view an appointment" << endl;
+        cout << "Press 5 to view upcoming appointments" << endl;
+        cout << "Press 6 to view all appointments" << endl;
+        cout << "Press 7 to cancel an appointment" << endl;
+        cout << "Press 0 to go back to admin menu" << endl;
+        cout << "Please make your choice: " << endl;
+        
+        cin >> adminChoice;
+
+        cin.ignore(1000, '\n'); // Clear buffer
+
+        // switch for menu cases
+        switch (adminChoice)
+        {
+        //schedule an appointment
+        case 1:
+        {
+        string date, time, customerName, serviceName;
+        cout << "Enter customer name: "<<endl;
+        getline(cin, customerName);
+        cout << "Enter service name: " << endl;
+        getline(cin, serviceName);
+        cout << "Enter date: " << endl;
+        getline(cin, date);
+        cout << "Enter time: " << endl;
+        getline(cin, time);        
+        scheduleAppointment(date, time, customerName, serviceName);
+        }
+        break;
+        //reschedule an appointment
+        case 2:
+        {
+            string id, newDate, newTime;
+            cout << "Please enter appointment ID: ";
+            getline(cin, id);
+            cout << "The current appointment is: " << endl;
+            viewAppointment(id);
+            cout << "Please enter new date in DD-MM-YYYY format: ";
+            getline(cin,newDate);
+            cout <<"Please enter new time in format HH:MM.";
+            getline(cin,newTime);
+            rescheduleAppointment(id, newDate, newTime);
+        }
+        break;
+        //complete  an appointment
+        case 3:
+        {
+            string id;
+            cout << "Please enter appointment ID: ";
+            getline(cin, id);
+            completeAppointment(id);
+        }
+        break;
+        // view an appointment
+        case 4:
+        {
+            string id;
+            cout << "Please enter appointment id: "<<endl; 
+            getline(cin, id);
+            cout << "\n--- APPOINTMENT DETAILS ---" << endl;
+            viewAppointment(id);
+        }
+        break;
+        case 5:
+        {
+            viewUpcomingAppointments();
+        }
+        break;
+        // view all appointments
+        case 6:
+        {
+            viewAllAppointments();
+        }
+        break;
+        //cancel appointment
+        case 7:
+        {   string id;
+            cout << "Please enter appointment ID: " << endl;
+            getline(cin, id);
+            cancelAppointment(id);            
         }
         break;
         //case 0 to return to admin menu
@@ -424,31 +610,14 @@ void SalonSystem::viewCustomerAppts(string name) {
     bool found = false;
     for (auto appt : _appointments) {
         if (appt->getCustomer()->getName() == name) {
-            appt->displayAppointment();
+            appt->displayAppt();
             found = true;
         }
     }
     if (!found) cout << "No appointments found for this customer." << endl;
 }
 
-//manage business details
-void SalonSystem::manageBusinessDetails() {
-    cout << "\n--- MANAGE BUSINESS DETAILS ---" << endl;
-    cout << "Current Name: " << (_businessName.empty() ? "Not Set" : _businessName) << endl;
-    cout << "Current ID:   " << (_businessID.empty() ? "Not Set" : _businessID) << endl;
-    cout << "-------------------------------" << endl;
 
-    cout << "Enter New Business Name: ";
-    getline(cin, _businessName);
-
-    cout << "Enter New Business ID: ";
-    getline(cin, _businessID);
-
-
-    saveData(); 
-
-    cout << "\nBusiness details updated and synced to all records!" << endl;
-}
 
 
 
@@ -526,6 +695,7 @@ void SalonSystem::deleteService(string name) {
     cout << "Service not found." << endl;
 }
 
+// product management functions
 // adding a product
 void SalonSystem::addProduct(string name, double price, int stock, string expiryDate) {
     try{
@@ -540,51 +710,64 @@ void SalonSystem::addProduct(string name, double price, int stock, string expiry
         cerr << "Error: "<<e.what() << endl;
     }
 }
-//finding a service by name
-Service* SalonSystem::findService(string name) {
-    //looping through the vector of pointers that point to  to find the right name
-    for (auto service: _services) {        
-        if (service->getName() == name) {
-            return service;
-        }
+
+//case 2-update a product -price only
+ void SalonSystem::updateProduct(string name){
+     Product *p = findProduct(name);
+     if (p) {             
+         double newPrice;
+         cout << "Current product details: " << endl;
+         p->showInfo();
+         cout << "Enter new price: "<<endl;
+         cin>>newPrice;
+         if (p->setPrice(newPrice))
+         {
+             cout << "Update successful!" << endl;
+             saveProducts();
+             cout << "Updated product price. " << endl;
+           
+         }
+    } else {
+        cout << "Product not found." << endl;
     }
-    //return nullptr if there is no such name
-    return nullptr; 
+ };
+ //case 3 - view a product
+ void SalonSystem::viewProduct(string name) {
+    Product* p = findProduct(name);
+    if (p) {
+        p->showInfo();
+    } else {
+        cout << " Product not found." << endl;
+    }
 }
-//finding a product by name
-Product* SalonSystem::findProduct(string name) {
-    //looping through the vector of pointers that point to products
-    for (auto product : _products) {        
-        if (product->getName() == name) {
-            return product;
+//case 4 - view all products
+void SalonSystem::viewAllProducts() const {
+    cout << "\n--- BEAUTY SALON PRODUCTS---" << endl;
+    if (_products.empty()) {
+        cout << "No products found in the system." << endl;
+        return;
+    }
+    for (auto p : _products)
+            {
+                p->showInfo();
+            }
+}
+//case 5 - delete a product
+void SalonSystem::deleteProduct(string name) {
+    for (auto it = _products.begin(); it != _products.end(); ++it) {
+        if ((*it)->getName() == name) {
+            delete *it;            // Free the memory on the heap
+            _products.erase(it);  // Remove the pointer from the vector
+            saveProducts();       // Update the services.txt file
+            cout << "Product removed successfully." << endl;
+            return;
         }
     }
-    //return nullptr if there is no such name
-    return nullptr; 
+    cout << "Product not found." << endl;
 }
 
-//finding an appointment by id
-Appointment* SalonSystem::findAppointment(string id) {
-    //looping through the vector of pointers that point to appointments to find the right id
-    for (auto appt : _appointments) {        
-        if (appt->getID() == id) {
-            return appt;
-        }
-    }
-    //return nullptr if there is no such id
-    return nullptr; 
-}
-//finding a customer by name
-Customer* SalonSystem::findCustomer(string name) {
-    for (auto customer : _customers) {
-        if (customer->getName() == name){
-        return customer;
-    }
-}
-    return nullptr;
-}
-
-//scheduling appointments
+//appointment management functions
+//case 1 - schedule an appointment
 void SalonSystem::scheduleAppointment(string date, string time, string customerName, string serviceName) {
     //find customer by name
     Customer* customerPtr = findCustomer(customerName);
@@ -609,29 +792,143 @@ void SalonSystem::scheduleAppointment(string date, string time, string customerN
     
     // Create the new Appointment object on the heap
     Appointment* apptPtr = new Appointment(apptID, date, time, customerPtr, servicePtr, nullptr);
-    //push the pointer to the newappintment to the vector of appointment pointers
+    //push the pointer to the new appointment to the vector of appointment pointers
     _appointments.push_back(apptPtr);
     //let the user know that the new appointment has been scheduled
     cout << "Appointment " << apptID << " scheduled successfully!" << endl;
     saveAppointments();
 }
 
-//updating existing appointment
-//nedd to check for overlap later!
-void SalonSystem::updateAppointment(string apptID, string newDate, string newTime){
+//case 2 - reschedule an appointment
+//need to check for overlap later!
+void SalonSystem::rescheduleAppointment(string apptID, string newDate, string newTime){
     //find appointment by id calling function findAppointment()
     //later-try to find by customer/date
     Appointment* appt = findAppointment(apptID);
     // check if the appointment exists-the pointer is not nullptr
     if (appt != nullptr) {
         // use pointer to call reschedule() method of Appointment class
-        appt->reschedule(newDate, newTime);
+        appt->rescheduleAppt(newDate, newTime);
         } else {
         // if findAppointment returnes nullptr, the ID is not found
         cout << "Error: appointment ID " << apptID << " not found." << endl;
     }
     saveAppointments();
 }
+//case 3 - complete an appointment;
+void SalonSystem::completeAppointment(string apptID){
+    Appointment* appt = findAppointment(apptID);
+     if (appt){
+        appt->completeAppt();
+        saveAppointments();
+        cout << "Appointment " << apptID << " has been marked as completed" << endl;
+        appt->saveInvoiceToFile(_businessName, _businessID);
+        
+    }
+    else
+    {
+        cout << "Error: Appointment ID " << apptID << " not found";
+    }
+
+};
+//case 4 -view an appointmnet
+void SalonSystem::viewAppointment(string apptID) const{
+    Appointment* a = findAppointment(apptID);
+    if (a) {
+        a->displayAppt();
+    } else {
+        cout << " Appointment not found." << endl;
+    }
+}
+//case 5 -view upcoming appointmets
+void SalonSystem::viewUpcomingAppointments() const {
+    cout << "\n--- UPCOMING SCHEDULED APPOINTMENTS ---" << endl;
+    bool found = false;
+    for (const auto& appt : _appointments) {
+            if (appt->getStatusString() == "SCHEDULED") {
+            appt->displayAppt(); 
+            //cout << "-----------------------" << endl;
+            found = true;
+        }
+    }
+    if (!found) {
+        cout << "No upcoming appointments found." << endl;
+    }
+}
+//case 6 - view all appointments
+void SalonSystem::viewAllAppointments() const {
+    cout << "\n--- BEAUTY SALON APPOINTMENTS---" << endl;
+    if (_appointments.empty()) {
+        cout << "No appointments found in the system." << endl;
+        return;
+    }
+    for (auto a : _appointments)
+            {
+                a->displayAppt();
+            }
+}
+//case 7 - cancel an appointment
+void SalonSystem::cancelAppointment(string apptID){
+    //find appointment pointer
+    Appointment* appt=findAppointment(apptID);
+    //cancel appointment if id is found
+    if (appt){
+        appt->cancelAppt();
+        saveAppointments();
+        cout << "Appointment "<<apptID<<" has been cancelled" << endl;
+            }
+    else
+    {
+        cout << "Appointment ID " << apptID << " not found";
+    }
+};
+
+
+
+//finding a service by name
+Service* SalonSystem::findService(string name) const{
+    //looping through the vector of pointers that point to  to find the right name
+    for (auto service: _services) {        
+        if (service->getName() == name) {
+            return service;
+        }
+    }
+    //return nullptr if there is no such name
+    return nullptr; 
+}
+//finding a product by name
+Product* SalonSystem::findProduct(string name) const{
+    //looping through the vector of pointers that point to products
+    for (auto product : _products) {        
+        if (product->getName() == name) {
+            return product;
+        }
+    }
+    //return nullptr if there is no such name
+    return nullptr; 
+}
+
+//finding an appointment by id
+Appointment* SalonSystem::findAppointment(string id) const {
+    //looping through the vector of pointers that point to appointments to find the right id
+    for (auto appt : _appointments) {        
+        if (appt->getID() == id) {
+            return appt;
+        }
+    }
+    //return nullptr if there is no such id
+    return nullptr; 
+}
+//finding a customer by name
+Customer* SalonSystem::findCustomer(string name) const{
+    for (auto customer : _customers) {
+        if (customer->getName() == name){
+        return customer;
+    }
+}
+    return nullptr;
+}
+
 
 //save functions
 //saving all data
@@ -723,6 +1020,7 @@ void SalonSystem::saveAppointments() {
     //loop through the vector _appointments and save appointments to the file appointments.txt
     for (auto appt : _appointments) {
         outFile << appt->getID() << "|"
+                << appt->getStatusString() << "|"
                 << appt->getDate() << "|"
                 << appt->getTime() << "|"
                 << appt->getCustomer()->getName() << "|"
@@ -823,9 +1121,10 @@ void SalonSystem::loadAppointments() {
 
     while (getline(inFile, line)) {
         stringstream ss(line);
-        string id, date, time, cName, sName, pName;
+        string id, statusStr, date, time, cName, sName, pName;
 
         getline(ss, id, '|');
+        getline(ss, statusStr, '|');
         getline(ss, date, '|');
         getline(ss, time, '|');
         getline(ss, cName, '|');
@@ -844,14 +1143,24 @@ void SalonSystem::loadAppointments() {
     }
     inFile.close();
 }
-//cancel appointment
-void SalonSystem::cancelAppointment(string apptID){
-    findAppointment(apptID);
-};
-//view all appointments
-void SalonSystem::viewAllAppointments()const {
-    for (auto appt: _appointments){
-        appt->displayAppointment(); 
-    
+
+
+//manage business details
+void SalonSystem::manageBusinessDetails() {
+    cout << "\n--- MANAGE BUSINESS DETAILS ---" << endl;
+    cout << "Current Name: " << (_businessName.empty() ? "Not Set" : _businessName) << endl;
+    cout << "Current ID:   " << (_businessID.empty() ? "Not Set" : _businessID) << endl;
+    cout << "-------------------------------" << endl;
+    cout << "Would you like to change your business details? y/n " << endl;
+    char answer;
+    cin >> answer;
+    if (answer=='y'){
+        cout<< "Enter New Business Name: ";
+        getline(cin, _businessName);
+        cout << "Enter New Business ID: ";
+        getline(cin, _businessID);
+        saveData(); 
+        cout << "\nBusiness details updated and synced to all records!" << endl;
     }
-};
+    return;
+}
