@@ -58,45 +58,12 @@ void SalonSystem::addStaff() {
     _staffMembers.push_back(new Staff(id, name, password));
     cout << "Staff account created successfully!" << endl;
 }
-
-
-/*void SalonSystem::displayMainMenu() {
-    cout << "\nWelcome to the Business Management System" << endl;
-    //try and catch for user roles
-    try{
-        cout << "Enter a for admin" << endl;
-        cout<<"Enter s for staff" <<endl;
-        cout << "Enter b for business owner" << endl;
-        char role;
-        cin >> role;
-        cout << "Please enter your password" << endl;
-        string password;
-        cin >> password;
-        //clears the buffer
-        cin.ignore(1000, '\n');
-        if (role == 'a' && password == "admin890")
-        {
-            displayAdminMenu();
-        }
-        else if (role == 's' && password == "st45")
-        {
-            displayStaffMenu();
-        }
-        else if (role=='b' && password=="owner"){
-            manageBusinessDetails();
-        } else{
-            throw invalid_argument ("Wrong creadentials");
-        }
-    }
-catch(invalid_argument e){
-    cerr << "Error: " << e.what() << endl;
-}
-}*/
+//main menu
 void SalonSystem::displayMainMenu() {
     cout << "\nWelcome to the Business Management System" << endl;
     
     try {
-        cout << "Enter a for admin, s for staff, b for business owner: ";
+        cout << "Enter a for admin, s for staff: ";
         char roleInput;
         cin >> roleInput;
         cout << "Please enter your password: ";
@@ -151,6 +118,8 @@ void SalonSystem::displayAdminMenu(){
     cout << "Press 3 to manage products" << endl;
     cout << "Press 4 to add a new Admin account" << endl;
     cout << "Press 5 to add a new Staff account" << endl;
+    cout << "Press 6 to manage business details" << endl;
+    cout << "Press 7 to view financial documentation" << endl;
     cout << "Press 0 to save and exit" << endl;
     cout << "Please make your choice: ";
     cin >> adminChoice;
@@ -181,6 +150,13 @@ void SalonSystem::displayAdminMenu(){
             case 5:
                 addStaff(); // Triggers Staff creation
                 break;
+            case 6:
+                manageBusinessDetails();
+                break;
+            case 7:
+                viewFinDocs();
+                break;
+            
             case 0:
                 cout << "Saving data... Goodbye!" << endl;
                 saveData();
@@ -711,6 +687,7 @@ void SalonSystem::displayStaffAppointmentMenu (){
         cout << "Press 5 to view upcoming appointments" << endl;
         cout << "Press 6 to view all appointments" << endl;
         cout << "Press 7 to cancel an appointment" << endl;
+        cout << "Press 8 to print a receipt for an appointment" << endl;
         cout << "Press 0 to go back to staff menu" << endl;
         cout << "Please make your choice: " << endl;
         
@@ -789,8 +766,15 @@ void SalonSystem::displayStaffAppointmentMenu (){
             cancelAppointment(id);            
         }
         break;
-        //case 0 to return to admin menu
-        case 0:
+        case 8:
+
+        {   string id;
+            cout << "Please enter appointment ID: " << endl;
+            getline(cin, id);
+            printReceipt(id);
+        }
+            // case 0 to return to admin menu
+            case 0:
             cout<<"Going back to the admin menu. "<<endl;
             return;
         //default case
@@ -1176,7 +1160,7 @@ void SalonSystem::viewAllAppointments() const {
                 a->displayAppt();
             }
 }
-//case 7 - cancel an appointment
+//cancel an appointment
 void SalonSystem::cancelAppointment(string apptID){
     //find appointment pointer
     Appointment* appt=findAppointment(apptID);
@@ -1191,8 +1175,58 @@ void SalonSystem::cancelAppointment(string apptID){
         cout << "Appointment ID " << apptID << " not found";
     }
 };
+//print a receipt
+void SalonSystem::printReceipt(string apptID){
+    Appointment* appt = findAppointment(apptID);
+     if (appt){        
+        cout << "printing receipt for an appointment " << apptID << endl;
+        appt->generateReceipt(_businessName, _businessID);        
+    }
+    else
+    {
+        cout << "Error: Appointment ID " << apptID << " not found";
+    }
 
+}
+//view financial docs
+void SalonSystem::viewFinDocs(){    
+    int choice;
+    string id;
+    cout << "\n--- ADMIN DOCUMENT VIEWER ---" << endl;
+    cout << "1. View an Invoice" << endl;
+    cout << "2. View a Receipt" << endl;
+    cout << "3. Return to Main Menu" << endl;
+    cout << "Selection: ";
+    cin >> choice;
 
+    if (choice == 3) return;
+
+    cout << "Enter Appointment ID: ";
+    cin >> id;
+
+    if (choice == 1) {
+        displayDocs("invoice" + id + ".txt");
+    } else if (choice == 2) {
+        displayDocs("receipt_" + id + ".txt");
+    }
+}
+//display docs
+void SalonSystem::displayDocs(string fileName) {
+    ifstream file(fileName);
+    string line;
+
+    if (file.is_open()) {
+        cout << "\n--- Displaying File: " << fileName << " ---" << endl;
+        while (getline(file, line)) {
+            cout << line << endl;
+        }
+        file.close();
+       
+    } else {
+        cout << "\nError: File not found: " << fileName << endl;
+        cout << "Ensure the ID is correct or the file has been generated." << endl;
+    }
+}
 
 //finding a service by name
 Service* SalonSystem::findService(string name) const{
@@ -1242,8 +1276,9 @@ Customer* SalonSystem::findCustomer(string name) const{
 //save functions
 //saving all data
 void SalonSystem::saveData() {
-    // call save functions
+    // call save functions    
     saveUsers();
+    saveBusinessDetails();
     saveCustomers();
     saveServices();
     saveProducts();
@@ -1266,6 +1301,19 @@ void SalonSystem::saveUsers() {
         outFile << "S|" << s->getID() << "|" << s->getName() << "|" << s->getPassword() << endl;
     }
     outFile.close();
+}
+//save business details
+void SalonSystem::saveBusinessDetails() {
+    ofstream outFile("business_details.txt");
+    if (outFile.is_open()) {
+        outFile << _businessName << endl;
+        outFile << _businessID << endl;
+        outFile << _businessPhone << endl;
+        outFile << _businessAddress << endl;
+        outFile.close();
+    } else {
+        cerr << "Error: Could not save business details to file." << endl;
+    }
 }
 //save customers to customers.txt
 void SalonSystem::saveCustomers() {
@@ -1369,6 +1417,7 @@ void SalonSystem::loadData() {
     
     // call load functions
     loadUsers();
+    loadBusinessDetails();
     loadCustomers();
     loadServices();
     loadProducts();
@@ -1403,6 +1452,19 @@ void SalonSystem::loadUsers() {
         }
     }
     inFile.close();
+}
+//load business details
+void SalonSystem::loadBusinessDetails() {
+    ifstream inFile("business_details.txt");
+    if (inFile.is_open()) {
+        getline(inFile, _businessName);
+        getline(inFile, _businessID);
+        getline(inFile, _businessPhone);
+        getline(inFile, _businessAddress);
+        inFile.close();
+    } else {
+       cout << "No existing business record found. Starting fresh." << endl;
+    }
 }
 //load customer data
 void SalonSystem::loadCustomers() {
@@ -1504,8 +1566,10 @@ void SalonSystem::manageBusinessDetails() {
     cout << "\n--- MANAGE BUSINESS DETAILS ---" << endl;
     cout << "Current Name: " << (_businessName.empty() ? "Not Set" : _businessName) << endl;
     cout << "Current ID:   " << (_businessID.empty() ? "Not Set" : _businessID) << endl;
+    cout << "Current Phone: " << (_businessPhone.empty() ? "Not Set" : _businessPhone) << endl;
+    cout << "Current Adddress:   " << (_businessAddress.empty() ? "Not Set" : _businessAddress) << endl;
     cout << "-------------------------------" << endl;
-    cout << "Would you like to change your business details? y/n " << endl;
+    cout << "Would you like to update business details? y/n " << endl;
     char answer;
     cin >> answer;
     cin.ignore(1000, '\n');
@@ -1515,7 +1579,11 @@ void SalonSystem::manageBusinessDetails() {
         getline(cin, _businessName);
         cout << "Enter New Business ID: ";
         getline(cin, _businessID);
-        saveData(); 
+        cout<< "Enter New Business Phone: ";
+        getline(cin, _businessPhone);
+        cout << "Enter New Business Address: ";
+        getline(cin, _businessAddress);
+        saveBusinessDetails(); 
         cout << "\nBusiness details updated and synced to all records!" << endl;
     }
     return;

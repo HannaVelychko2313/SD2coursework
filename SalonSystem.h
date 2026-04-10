@@ -33,11 +33,13 @@ private:
 
     //helper functions
     void loadUsers();     // Reads from users.txt
+    void loadBusinessDetails(); // Reads from business_details.txt
     void loadCustomers(); // Reads from customers.txt file
     void loadServices(); // Reads from services.txt file
     void loadProducts(); // Reads from products.txt file
     void loadAppointments(); // Reads from appointments.txt file
     void saveUsers();//Writes to users.txt
+    void saveBusinessDetails(); // writes to business_details.txt
     void saveCustomers(); // Writes to customers.txt file
     void saveServices();//Writes to services.txt file
     void saveProducts();//Writes to products.txt file
@@ -98,12 +100,16 @@ public:
     // appointment management    
     void scheduleAppointment(std::string date, std::string time, std::string customerName, std::string serviceName);//case 1
     void rescheduleAppointment(std::string apptID, std::string newDate, std::string newTime);//case 2
-    void completeAppointment(std::string apptID);//case 3
-    void viewAppointment(std::string apptID)const;// case 4
-    void viewUpcomingAppointments() const;// case 5
-    void viewAllAppointments() const;//case 6
-    void cancelAppointment(std::string apptID);//case 7
-   
+    void completeAppointment(std::string apptID);
+    void viewAppointment(std::string apptID)const;
+    void viewUpcomingAppointments() const;
+    void viewAllAppointments() const;
+    void cancelAppointment(std::string apptID);
+    void printReceipt(std::string);
+    //financial docs
+    void viewFinDocs();
+    void displayDocs(std::string fileName);
+
     // finding customer, service, product  by name 
     Customer* findCustomer(std::string name) const;
     Service* findService(std::string name) const;

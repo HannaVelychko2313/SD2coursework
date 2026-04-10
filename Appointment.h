@@ -47,6 +47,8 @@ public:
     void cancelAppt();
     //generate invoice
     void saveInvoiceToFile(std::string businessName, std::string businessID) const;
+    //generate receipt
+    void generateReceipt(std ::string businessName, std::string businessID) const;
 };
 
 #endif

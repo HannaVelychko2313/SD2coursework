@@ -101,3 +101,40 @@ void Appointment::saveInvoiceToFile(string businessName, string businessID) cons
     outFile.close();
     cout << "System: Invoice saved to " << fileName << endl;
 }
+void Appointment::generateReceipt(string businessName, string businessID) const {
+    // Dynamic filename for the receipt
+    string fileName = "receipt_" + _apptID + ".txt";
+    ofstream outFile(fileName);
+
+    if (!outFile) {
+        cerr << "Error: Could not create receipt file." << endl;
+        return;
+    }
+
+    outFile << "================================" << endl;
+    outFile << "            RECEIPT        " << endl;
+    outFile << "================================" << endl;
+    outFile << "Business: " << businessName << endl;    
+    outFile <<" Business ID: " << businessID << endl;
+    outFile << "Receipt For Invoice: #" << _apptID << endl;
+    outFile << "Customer: " << _customer->getName() << endl;
+    outFile << "--------------------------------" << endl;
+
+    double total = _service->getPrice();
+    outFile << "Service: " << _service->getName() << " - £" << _service->getPrice() << endl;
+
+    if (_product) {
+        total += _product->getPrice();
+        outFile << "Product: " << _product->getName() << " - £" << _product->getPrice() << endl;
+    }
+
+    outFile << "--------------------------------" << endl;
+    outFile << "TOTAL PAID: £" << total << endl;
+    outFile << "STATUS: PAID IN FULL" << endl;
+    outFile << "--------------------------------" << endl;
+    outFile << "Thank you for your business!" << endl;
+    outFile << "================================" << endl;
+
+    outFile.close();
+    cout << "System: Receipt generated successfully: " << fileName << endl;
+}
