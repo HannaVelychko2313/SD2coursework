@@ -127,7 +127,7 @@ public:
     void loadData(); // call at startup
     void saveData(); // call at shutdown
 
-    //template function for numeric input
+    //template function for input validation
     template <typename T>
     T getNumericInput(std::string prompt) {
         T value;
@@ -135,13 +135,14 @@ public:
         
         while (!(std::cin >> value)) {
             std::cout << "Invalid input! Please enter a numeric value: ";
-            std::cin.clear(); // Clear error flags
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard bad input
+            std::cin.clear(); // clearing error flags
+            clearBuffer();
+            // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard bad input
         }
         
-        // Clean up the newline character left in the buffer so getline() works next
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        
+        // cleaning up the newline character left in the buffer so getline() works next
+        //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        clearBuffer();
         return value;
     }
     
