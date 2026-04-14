@@ -1573,18 +1573,43 @@ void SalonSystem::manageBusinessDetails() {
     char answer;
     cin >> answer;
     cin.ignore(1000, '\n');
+    if (tolower(answer) == 'y') {
+        _businessName = getRequiredInput("Enter New Business Name: ");
+        _businessID = getRequiredInput("Enter New Business ID: ");
+        
+        // validation for phone
+        while (true) {
+            cout << "Enter New Business Phone: ";
+            getline(cin, _businessPhone);
+            if (isValidPhone(_businessPhone)) break;
+            cout << "Error: Invalid phone format. Use digits only (min 10)." << endl;
+        }
 
-    if (answer=='y'){
-        cout<< "Enter New Business Name: ";
-        getline(cin, _businessName);
-        cout << "Enter New Business ID: ";
-        getline(cin, _businessID);
-        cout<< "Enter New Business Phone: ";
-        getline(cin, _businessPhone);
-        cout << "Enter New Business Address: ";
-        getline(cin, _businessAddress);
-        saveBusinessDetails(); 
-        cout << "\nBusiness details updated and synced to all records!" << endl;
+        _businessAddress = getRequiredInput("Enter New Business Address: ");
+
+        saveData(); // or saveBusinessConfig()
+        cout << "\n[Success] Business details updated and saved!" << endl;
+        }
     }
-    return;
+
+
+
+
+bool SalonSystem::isValidPhone(const string& phone) {
+    if (phone.length() < 10 || phone.length() > 15) return false;
+    for (char const &c : phone) {
+        if (!isdigit(c) && c != ' ' && c != '+') return false; 
+    }
+    return true;
+}
+string SalonSystem::getRequiredInput(string prompt) {
+    string input;
+    while (true) {
+        cout << prompt;
+        getline(cin, input);
+        if (!input.empty()) {
+            return input;
+        }
+        cout << "Error: This field cannot be empty. Please try again." << endl;
+    }
 }

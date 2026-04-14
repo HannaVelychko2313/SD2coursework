@@ -44,6 +44,8 @@ private:
     void saveServices();//Writes to services.txt file
     void saveProducts();//Writes to products.txt file
     void saveAppointments(); // Writes to appointments.txt file 
+    bool isValidPhone(const std::string& phone);//checks the phone
+    std::string getRequiredInput(std::string prompt);//checks the input
 
 
 public:
@@ -121,8 +123,7 @@ public:
     void loadData(); // call at startup
     void saveData(); // call at shutdown
     
-    // helper fuction to add the file header
-    void addHeader() const;
+    
     
 };
 

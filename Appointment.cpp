@@ -77,15 +77,12 @@ void Appointment::saveInvoiceToFile(string businessName, string businessID) cons
     }
     // write the invoice data to the file
     outFile << "Business Name: " << businessName << endl;
-    outFile << "Business ID: " << businessID << endl;
-    outFile << "================================" << endl;
-    outFile << "        BEAUTY SALON INVOICE        " << endl;
-    outFile << "================================" << endl;    
+    outFile << "Business ID: " << businessID << endl;   
+    outFile << "BEAUTY SALON INVOICE" << endl;    
     outFile << "Invoice ID: " << _apptID << endl;
     outFile << "Customer:   " << _customer->getName() << endl;
     outFile << "Date:       " << _date << " at " << _time << endl;
-    outFile << "--------------------------------" << endl;
-    
+   
     double total = _service->getPrice();
     outFile << "Service: " << _service->getName() << " ... £" << _service->getPrice() << endl;
 
@@ -96,8 +93,7 @@ void Appointment::saveInvoiceToFile(string businessName, string businessID) cons
 
     outFile << "--------------------------------" << endl;
     outFile << "TOTAL: £" << total << endl;
-    outFile << "================================" << endl;
-
+    
     outFile.close();
     cout << "System: Invoice saved to " << fileName << endl;
 }
@@ -111,14 +107,13 @@ void Appointment::generateReceipt(string businessName, string businessID) const 
         return;
     }
 
-    outFile << "================================" << endl;
-    outFile << "            RECEIPT        " << endl;
-    outFile << "================================" << endl;
+   
+    outFile << "CUSTOMER RECEIPT" << endl;
     outFile << "Business: " << businessName << endl;    
     outFile <<" Business ID: " << businessID << endl;
     outFile << "Receipt For Invoice: #" << _apptID << endl;
     outFile << "Customer: " << _customer->getName() << endl;
-    outFile << "--------------------------------" << endl;
+   
 
     double total = _service->getPrice();
     outFile << "Service: " << _service->getName() << " - £" << _service->getPrice() << endl;
@@ -133,8 +128,7 @@ void Appointment::generateReceipt(string businessName, string businessID) const 
     outFile << "STATUS: PAID IN FULL" << endl;
     outFile << "--------------------------------" << endl;
     outFile << "Thank you for your business!" << endl;
-    outFile << "================================" << endl;
-
+    
     outFile.close();
     cout << "System: Receipt generated successfully: " << fileName << endl;
 }
