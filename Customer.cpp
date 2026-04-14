@@ -20,7 +20,7 @@ bool Customer::setName(string name) {
         _name = name;
         return true;
     }else {
-        throw invalid_argument("Error: Invalid Name. Use letters only.");
+        throw invalid_argument("Invalid Name. Use letters only.");
 }
     }
     
@@ -32,8 +32,7 @@ bool Customer::setPhone(string phone) {
         _phone = phone;
         return true;
     }else{
-         cout << "Error: Invalid Phone. Enter 10-12 digits without spaces/dashes." << endl;
-         return false;
+         throw invalid_argument(" Invalid Phone. Enter 10-12 digits without spaces/dashes.");
 }
     }
    
