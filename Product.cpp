@@ -13,7 +13,7 @@ Product::Product(string id, string name, double price, int stock, string expiryD
 //setter for stock
 bool Product::setStock(int stock){
     if (stock<0){
-        throw std::invalid_argument("Stock cannot be negative");
+        throw invalid_argument("Stock cannot be negative");
     }
     else
     {
@@ -26,7 +26,7 @@ void Product::setExpiryDate(string date) {
     // Regex check for DD-MM-YYYY
     regex pattern("^\\d{2}-\\d{2}-\\d{4}$");
     if (!regex_match(date, pattern)) {
-        throw invalid_argument("Invalid date. Please use DD-MM-YYYY");
+        throw invalid_argument("Object is not created.Invalid date. Please use DD-MM-YYYY");
     }
     _expiryDate = date;
 }

@@ -20,8 +20,7 @@ bool Customer::setName(string name) {
         _name = name;
         return true;
     }else {
-        cout << "Error: Invalid Name. Use letters only." << endl;
-        return false;
+        throw invalid_argument("Error: Invalid Name. Use letters only.");
 }
     }
     

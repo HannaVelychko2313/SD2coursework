@@ -795,29 +795,39 @@ void SalonSystem::displayStaffAppointmentMenu (){
 //customer management functions
 //case 1 - add a customer
 void SalonSystem::addCustomer(string name, string phone) {
-    // 1. Create a temp ID
-    string id = "C" + to_string(_customers.size() + 1);
-    
-    // 2. Create the object
-    Customer* newCust = new Customer(id, "Temp", "0000000000");
-
-    // 3. Validate both fields
-    if (!newCust->setName(name)) {
-        //cout << "Error: Invalid Name. Use letters only." << endl;
-        delete newCust;
-        return;
+    Customer *newCustPtr = nullptr;
+    try{
+        string id = "C" + to_string(_customers.size() + 1);
+        //creating a new object of Customer class on the heap
+        newCustPtr = new Customer(id, name, phone);
+        //pushing the poiner to the vector
+        _customers.push_back(newCustPtr);
+        saveCustomers();
+        cout << "Customer " << name << " added successfully!" << endl;
     }
-
-    if (!newCust->setPhone(phone)) {
-        //cout << "Error: Invalid Phone. Enter 10-12 digits without spaces/dashes." << endl;
-        delete newCust;
-        return;
+    //catching invalid_argument
+    catch(const invalid_argument& e){
+        cerr << "Error: " << e.what() << endl;
+        if(newCustPtr!=nullptr) {
+            //delete the pointer
+            delete newCustPtr;
+            //set pointer to null ptr
+            newCustPtr = nullptr;
+        }
     }
-
-    // 4. Success!
-    _customers.push_back(newCust);
-    saveCustomers();
-    cout << "Customer " << name << " added successfully!" << endl;
+    //catching runtime error
+    catch(const runtime_error& e){
+        cerr << "System " << e.what() << endl;
+        //deleting pointer to prevent memory leak
+        if(newCustPtr!=nullptr){
+            //remove pointer from the heap
+            _products.pop_back();
+            //delete the pointer
+            delete newCustPtr;
+            //set pointer to nullptr
+            newCustPtr = nullptr;
+        }
+}
 }
 //case 2 - update a customer
 void SalonSystem::updateCustomerInfo(string name) {
@@ -887,25 +897,42 @@ void SalonSystem::viewCustomerAppts(string name) {
     if (!found) cout << "No appointments found for this customer." << endl;
 }
 
-
-
-
-
-
 //service management functions
 //case 1 - add a service
 void SalonSystem::addService(string name, double price, double duration) {
-    try{
-    //generating service ID
-    string id = "S" + to_string(_services.size() + 1);
-    //creating a new object of Service class on the heap    
-    Service* newServicePtr = new Service(id, name, price, duration);
-    //adding the pointer to the new service object to the vector of pointers
-    _services.push_back(newServicePtr);
-    saveServices();
+    Service *newServicePtr = nullptr;
+    try
+    {
+        // generating service ID
+        string id = "S" + to_string(_services.size() + 1);
+        // creating a new object of Service class on the heap
+        newServicePtr = new Service(id, name, price, duration);
+        // pushing the pointer to the vector
+        _services.push_back(newServicePtr);
+        saveServices();
     }
-    catch (const invalid_argument e){
+    //catching invalid argument
+    catch (const invalid_argument& e){
         cerr << "Error: " << e.what() << endl;
+        if (newServicePtr!=nullptr){
+            //delete the pointer
+            delete newServicePtr;
+            //set pointer to nullptr
+            newServicePtr = nullptr;
+        }
+    }
+    //catching runtime_error
+    catch(const runtime_error& e){
+        cerr << "System " << e.what() << endl;
+        if (newServicePtr != nullptr)
+        {    
+            //remove pointer from the heap
+            _services.pop_back();
+             //delete the pointer
+            delete newServicePtr;
+             //set pointer to nullptr
+            newServicePtr = nullptr;
+        }
     }
 }
 //case 2-update a service-set a new price
@@ -968,16 +995,39 @@ void SalonSystem::deleteService(string name) {
 // product management functions
 // adding a product
 void SalonSystem::addProduct(string name, double price, int stock, string expiryDate) {
+    // declaring pointer outside try block so catch can see it
+    Product* newProductPtr = nullptr;
     try{
-    string id = "P" + to_string(_products.size() + 1);
+    string id = "P" + to_string(_products.size() + 1);    
     //creating a new object of Product class on the heap    
-    Product* newProductPtr = new Product(id, name, price, stock, expiryDate);
+    newProductPtr = new Product(id, name, price, stock, expiryDate);
     //pushing the pointer to the vector
     _products.push_back(newProductPtr);
     saveProducts();
     } 
-    catch(invalid_argument& e) {
+    //catching invalid argument error
+    catch(const invalid_argument& e) {
         cerr << "Error: "<<e.what() << endl;
+        // deleting pointer to prevent a memory leak
+        if (newProductPtr!= nullptr) {
+            //delete the pointer
+            delete newProductPtr;
+            //set pointer to nullptr
+            newProductPtr = nullptr;
+        }
+    }
+    //catching runtime error
+    catch(const runtime_error& e){
+        cerr << "System " << e.what() << endl;
+        //deleting pointer to prevent memory leak
+        if(newProductPtr!=nullptr){
+            //removes pointer from the object
+            _products.pop_back();
+            //delete the pointer
+            delete newProductPtr;
+            //set pointer to nullptr
+            newProductPtr = nullptr;
+        }
     }
 }
 
@@ -1362,8 +1412,7 @@ void SalonSystem::saveProducts(){
     ofstream outFile("products.txt");
     //check for error
     if(!outFile){
-        cerr<<"Error: Could not open products.txt for writing." << endl;
-        return;
+        throw runtime_error("Error: Could not open products.txt for writing.");
     }
     //add header to the file products.txt
     outFile << "Business name: " << _businessName << endl;

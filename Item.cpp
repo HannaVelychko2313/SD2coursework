@@ -39,7 +39,6 @@ void Item::setName(std::string name) {
 bool Item::setPrice(double price) {
     if (price < 0) {
         throw std::invalid_argument("Price cannot be negative");
-        return false;
     }else{
          _price = price;
     
