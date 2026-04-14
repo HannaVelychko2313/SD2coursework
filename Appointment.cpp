@@ -8,7 +8,29 @@ using namespace std;
 //constructor defintion 
 //using member initialization list
 Appointment::Appointment(string id, string date, string time, Customer* c, Service* s, Product* p)
-    : _apptID(id), _date(date), _time(time), _customer(c), _service(s), _product(p), _status(ApptStatus::SCHEDULED) {}
+    : _apptID(id), _customer(c), _service(s), _product(p), _status(ApptStatus::SCHEDULED) {
+    setDate(date);
+    setTime(time);
+}
+//setters
+void Appointment::setDate(string date){
+    // Regex check for DD-MM-YYYY
+    regex pattern("^\\d{2}-\\d{2}-\\d{4}$");
+    if (!regex_match(date, pattern)) {
+        throw invalid_argument("Invalid date. Please use DD-MM-YYYY");
+    }
+    _date = date;
+}
+void Appointment::setTime(string time){
+    // Regex check for HH:MM starting at 9:00 and finishing at 18:00
+    regex pattern("^((0?9|1[0-7]):[0-5][0-9]|18:00)$");
+    if (!regex_match(time, pattern)) {
+        throw invalid_argument("Invalid time. Please use HH:MM");
+    }
+    _time = time;
+
+}
+
 //getters
 string Appointment::getID() const { return _apptID; }
 string Appointment::getDate() const { return _date; }
@@ -17,23 +39,8 @@ Customer* Appointment::getCustomer() const { return _customer; }
 Service* Appointment::getService() const { return _service; }
 Product* Appointment::getProduct() const { return _product; }
 
-//method to reschedule appointment
-void Appointment::rescheduleAppt(string newDate, string newTime) {
-    // Pattern for DD-MM-YYYY
-    regex datePattern(R"(\d{2}-\d{2}-\d{4})");
-    
-    // Pattern for HH:MM (24-hour format)
-    regex timePattern(R"(\d{2}:\d{2})");
 
-    if (regex_match(newDate, datePattern) && std::regex_match(newTime, timePattern)) {
-        _date = newDate;
-        _time = newTime;
-        cout << "Appointment " << _apptID << " has been successfully rescheduled to " << _date << " at " << _time << endl;
-    } else {
-        cout << "Error: Invalid format. Use DD-MM-YYYY and HH:MM." << endl;
-    }
-}
-   
+
 //method to get the status and convert it to string 
 string Appointment::getStatusString() const {
     switch (_status) {

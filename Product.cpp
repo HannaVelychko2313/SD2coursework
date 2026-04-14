@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// Constructor
+// constructor
 Product::Product(string id, string name, double price, int stock, string expiryDate) 
     : Item(id, name, price) {
     setStock(stock);
@@ -26,7 +26,7 @@ void Product::setExpiryDate(string date) {
     // Regex check for DD-MM-YYYY
     regex pattern("^\\d{2}-\\d{2}-\\d{4}$");
     if (!regex_match(date, pattern)) {
-        throw invalid_argument("Object is not created.Invalid date. Please use DD-MM-YYYY");
+        throw invalid_argument("Invalid date. Please use DD-MM-YYYY");
     }
     _expiryDate = date;
 }

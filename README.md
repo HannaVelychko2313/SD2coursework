@@ -19,7 +19,7 @@ Admin: full access to creating new users, managing customers, services, products
 
 Technical Implementation:
 
-    Object-Oriented Programming: inheritance (Staff and Admin inherite from User, roduct and Service inherit from Item) and polymorphism.
+    Object-Oriented Programming: inheritance (Staff and Admin inherite from User, Product and Service inherit from Item) and polymorphism.
 
     Data Persistence: automatic file I/O system that saves all data into text files upon shutdown and loads them at startup.
 

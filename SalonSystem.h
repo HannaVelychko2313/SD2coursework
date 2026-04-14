@@ -129,7 +129,7 @@ public:
 
     //template function for input validation
     template <typename T>
-    T getNumericInput(std::string prompt) {
+    T getNumericInput(std::string prompt){
         T value;
         std::cout << prompt;
         
@@ -140,13 +140,12 @@ public:
             // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard bad input
         }
         
-        // cleaning up the newline character left in the buffer so getline() works next
+        //cleaning up the newline character left in the buffer so getline() works next
         //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
         clearBuffer();
         return value;
     }
-    
-    
 };
 
 #endif

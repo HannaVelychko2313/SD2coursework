@@ -716,7 +716,7 @@ void SalonSystem::displayStaffAppointmentMenu (){
             viewAppointment(id);
             cout << "Please enter new date in DD-MM-YYYY format: ";
             getline(cin,newDate);
-            cout <<"Please enter new time in format HH:MM.";
+            cout <<"Please enter new time in HH:MM format: ";
             getline(cin,newTime);
             rescheduleAppointment(id, newDate, newTime);
         }
@@ -931,8 +931,7 @@ void SalonSystem::addService(string name, double price, double duration) {
 //case 2-update a service-set a new price
  void SalonSystem::updateService(string name){
      Service *s = findService(name);
-     if (s) {
-         //string newName;         
+     if (s) {         
          double newPrice, newDuration;
          cout << "Current Service Details: " << endl;
          s->showInfo();
@@ -995,9 +994,11 @@ void SalonSystem::addProduct(string name, double price, int stock, string expiry
     newProductPtr = new Product(id, name, price, stock, expiryDate);
     //pushing the pointer to the vector
     _products.push_back(newProductPtr);
+    // let the user know that the product has been scheduled
+        cout << "Product" << id<<"  "<<name<< " has been added successfully!" << endl;
     saveProducts();
     } 
-    //catching invalid argument error
+    //catching invalid_argument
     catch(const invalid_argument& e) {
         cerr << "Error: "<<e.what() << endl;
         // deleting pointer to prevent a memory leak
@@ -1008,7 +1009,7 @@ void SalonSystem::addProduct(string name, double price, int stock, string expiry
             newProductPtr = nullptr;
         }
     }
-    //catching runtime error
+    //catching runtime_error
     catch(const runtime_error& e){
         cerr << "System " << e.what() << endl;
         //deleting pointer to prevent memory leak
@@ -1121,16 +1122,43 @@ void SalonSystem::scheduleAppointment(string date, string time, string customerN
     // Logic: Check for collisions before creating later
     // We use the 'timeToMinutes' logic we discussed earlier here
 
-    //create an id for a new appointment    
-    string apptID = "A" + to_string(_appointments.size() + 1);
-    
-    // Create the new Appointment object on the heap
-    Appointment* apptPtr = new Appointment(apptID, date, time, customerPtr, servicePtr, nullptr);
-    //push the pointer to the new appointment to the vector of appointment pointers
-    _appointments.push_back(apptPtr);
-    //let the user know that the new appointment has been scheduled
-    cout << "Appointment " << apptID << " scheduled successfully!" << endl;
-    saveAppointments();
+    Appointment *newApptPtr = nullptr;
+    try{
+        string apptID = "A" + to_string(_appointments.size() + 1);
+
+        // Create the new Appointment object on the heap
+        newApptPtr=new Appointment(apptID, date, time, customerPtr, servicePtr, nullptr);
+        // push the pointer to the new appointment to the vector of appointment pointers
+        _appointments.push_back(newApptPtr);
+        // let the user know that the new appointment has been scheduled
+        cout << "Appointment " << apptID << " scheduled successfully!" << endl;
+        saveAppointments();
+    }
+    //catching invalid _argument 
+   catch(const invalid_argument& e){
+       cerr << "Error: " <<e.what() << endl;
+       // deleting pointer to prevent a memory leak
+        if (newApptPtr!= nullptr) {
+            //delete the pointer
+            delete newApptPtr;
+            //set pointer to nullptr
+            newApptPtr = nullptr;
+        }
+
+   }
+   //catching runtime_error
+    catch(const runtime_error& e){
+        cerr << "System " << e.what() << endl;
+        //deleting pointer to prevent memory leak
+        if(newApptPtr!=nullptr){
+            //removes pointer from the object
+            _appointments.pop_back();
+            //delete the pointer
+            delete newApptPtr;
+            //set pointer to nullptr
+            newApptPtr = nullptr;
+        }
+    }
 }
 
 //case 2 - reschedule an appointment
@@ -1141,8 +1169,15 @@ void SalonSystem::rescheduleAppointment(string apptID, string newDate, string ne
     Appointment* appt = findAppointment(apptID);
     // check if the appointment exists-the pointer is not nullptr
     if (appt != nullptr) {
-        // use pointer to call reschedule() method of Appointment class
-        appt->rescheduleAppt(newDate, newTime);
+        // use pointer update date and time
+        try{
+            appt->setDate(newDate);
+            appt->setTime(newTime);
+            
+        }
+        catch(const invalid_argument& e){
+            cerr << "Error: "<<e.what() << endl;
+        }
         } else {
         // if findAppointment returnes nullptr, the ID is not found
         cout << "Error: appointment ID " << apptID << " not found." << endl;

@@ -23,8 +23,11 @@ public:
     Appointment(std::string id, std::string date, std::string time, 
                 Customer* c, Service* s, Product* p);
 
-    // settter for status
+    // settters
     void setStatus(ApptStatus status) { _status = status; }
+    //void setID();
+    void setDate(std::string date);
+    void setTime(std::string time);
 
     // getters for id, date, time
     std::string getID() const;
@@ -37,8 +40,6 @@ public:
     // convert enum to string for printing/saving
     std::string getStatusString() const;
 
-    // reschedule appointment
-    void rescheduleAppt(std::string newDate, std::string newTime);
     //display appointment 
     void displayAppt() const;
     //complete appointment
