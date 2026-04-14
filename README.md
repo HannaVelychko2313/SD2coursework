@@ -42,6 +42,3 @@ File Structure:
 Passwords:
 Default Admin User: admin890
 Staff User: anita7
-
-Complied file:
-program
