@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <limits> // Required for numeric_limits
 #include "Customer.h"
 #include "Service.h"
 #include "Product.h"
@@ -46,7 +47,10 @@ private:
     void saveAppointments(); // Writes to appointments.txt file 
     bool isValidPhone(const std::string& phone);//checks the phone
     std::string getRequiredInput(std::string prompt);//checks the input
-
+//helper function for limits
+void clearBuffer() const {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
 
 public:
     // constructor and destructor
@@ -122,7 +126,24 @@ public:
     // loading data from the file and saving data to the file
     void loadData(); // call at startup
     void saveData(); // call at shutdown
-    
+
+    //template function for numeric input
+    template <typename T>
+    T getNumericInput(std::string prompt) {
+        T value;
+        std::cout << prompt;
+        
+        while (!(std::cin >> value)) {
+            std::cout << "Invalid input! Please enter a numeric value: ";
+            std::cin.clear(); // Clear error flags
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard bad input
+        }
+        
+        // Clean up the newline character left in the buffer so getline() works next
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
+        return value;
+    }
     
     
 };

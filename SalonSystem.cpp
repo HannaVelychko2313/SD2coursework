@@ -413,10 +413,8 @@ void SalonSystem::displayAdminServiceMenu (){
         double price, duration;
         cout << "Enter service name: ";
         getline(cin, name);
-        cout << "Enter service price: ";
-        cin >> price;
-        cout << "Enter service duration: ";
-        cin >> duration;
+        price= getNumericInput<double>("Enter service price: ");
+        duration= getNumericInput<double>("Enter service duration: ");
         addService(name, price, duration);
         }
         break;
@@ -537,11 +535,10 @@ void SalonSystem::displayAdminProductMenu (){
         
         cin >> adminChoice;
 
-        cin.ignore(1000, '\n'); // Clear buffer
+        clearBuffer(); // Clear buffer
 
         // switch for menu cases
-        switch (adminChoice)
-        {
+        switch (adminChoice){
         //add a product
         case 1:
         {
@@ -550,12 +547,8 @@ void SalonSystem::displayAdminProductMenu (){
         double price;
         cout << "Enter the product name: "<<endl;
         getline(cin, name);
-        cout << "Enter the product price: "<<endl;
-        cin >> price;
-        cin.ignore(1000, '\n');
-        cout << "Enter the product stock: ";
-        cin >> stock;
-        cin.ignore(1000, '\n');
+        price = getNumericInput<double>("Enter product price: ");
+        stock = getNumericInput<int>("Enter product stock: ");
         cout << "Enter the product expiry date: ";
         getline(cin, expiryDate);
         addProduct(name, price, stock, expiryDate);
@@ -943,8 +936,7 @@ void SalonSystem::addService(string name, double price, double duration) {
          double newPrice, newDuration;
          cout << "Current Service Details: " << endl;
          s->showInfo();
-         cout << "Enter new price: "<<endl;
-         cin>>newPrice;
+         newPrice = getNumericInput<double>("Update price: ");
          if (s->setPrice(newPrice))
          {
              cout << "Update successful!" << endl;
@@ -1038,8 +1030,7 @@ void SalonSystem::addProduct(string name, double price, int stock, string expiry
          double newPrice;
          cout << "Current product details: " << endl;
          p->showInfo();
-         cout << "Enter new price: "<<endl;
-         cin>>newPrice;
+         newPrice = getNumericInput<double>("Update price: ");
          if (p->setPrice(newPrice))
          {
              cout << "Update successful!" << endl;
@@ -1058,8 +1049,8 @@ void SalonSystem::addProduct(string name, double price, int stock, string expiry
          int newStock;
          cout << "Current product details: " << endl;
          p->showInfo();
-         cout << "Enter new stock: "<<endl;
-         cin>>newStock;
+         newStock = getNumericInput<int>("Update stock: ");
+         
          try{
              p->setStock(newStock);
              cout << "Update successful!" << endl;
@@ -1661,4 +1652,16 @@ string SalonSystem::getRequiredInput(string prompt) {
         }
         cout << "Error: This field cannot be empty. Please try again." << endl;
     }
+}
+template <typename T>
+T getValidInput(string prompt) {
+    T value;
+    cout << prompt;
+    while (!(cin >> value)) {
+        cout << "Invalid input! Please enter a numeric value: ";
+        cin.clear(); // Reset error flags
+        cin.ignore(1000, '\n'); // Clear the "trash" from the buffer
+    }
+    cin.ignore(1000, '\n'); // Clear the newline so the next getline() works
+    return value;
 }
