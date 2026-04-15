@@ -69,7 +69,7 @@ void SalonSystem::displayMainMenu() {
         cout << "Please enter your password: ";
         string enteredPassword;
         cin >> enteredPassword;
-        cin.ignore(1000, '\n');
+        clearBuffer();
 
         bool authenticated = false;
 
@@ -123,8 +123,8 @@ void SalonSystem::displayAdminMenu(){
     cout << "Press 0 to save and exit" << endl;
     cout << "Please make your choice: ";
     cin >> adminChoice;
-    cin.ignore(1000, '\n'); // Clear buffer
-    //switch for cases
+    clearBuffer();
+    // switch for cases
     switch (adminChoice) {
             case 1:
                 // call third-level menu for customer management
@@ -178,8 +178,8 @@ void SalonSystem::displayStaffMenu(){
     cout << "Press 0 to save and exit" << endl;
     cout << "Please make your choice: ";
     cin >> staffChoice;
-    cin.ignore(1000, '\n'); // Clear buffer
-     //switch for cases
+    clearBuffer();
+    // switch for cases
     switch (staffChoice) {
             case 1:
                 // call third-level menu for customer management
@@ -233,7 +233,7 @@ void SalonSystem::displayAdminCustomerMenu (){
         
         cin >> adminChoice;
 
-        cin.ignore(1000, '\n'); // Clear buffer
+        clearBuffer();
 
         // switch for menu cases
         switch (adminChoice)
@@ -328,7 +328,8 @@ void SalonSystem::displayStaffCustomerMenu (){
         
         cin >> adminChoice;
 
-        cin.ignore(1000, '\n'); // Clear buffer
+        // clear buffer
+        clearBuffer();
 
         // switch for menu cases
         switch (adminChoice)
@@ -779,12 +780,7 @@ void SalonSystem::displayStaffAppointmentMenu (){
     }//end of while
 }//end of functiom
 
-
-
-
-
-
-
+//MANAGEMENT FUNCTIONS
 //customer management functions
 //case 1 - add a customer
 void SalonSystem::addCustomer(string name, string phone) {
@@ -1166,7 +1162,7 @@ void SalonSystem::scheduleAppointment(string date, string time, string customerN
 void SalonSystem::rescheduleAppointment(string apptID, string newDate, string newTime){
     //find appointment by id calling function findAppointment()
     //later-try to find by customer/date
-    Appointment* appt = findAppointment(apptID);
+    Appointment* appt = findAppointmentById(apptID);
     // check if the appointment exists-the pointer is not nullptr
     if (appt != nullptr) {
         // use pointer update date and time
@@ -1186,7 +1182,7 @@ void SalonSystem::rescheduleAppointment(string apptID, string newDate, string ne
 }
 //case 3 - complete an appointment;
 void SalonSystem::completeAppointment(string apptID){
-    Appointment* appt = findAppointment(apptID);
+    Appointment* appt = findAppointmentById(apptID);
      if (appt){
         appt->completeAppt();
         saveAppointments();
@@ -1202,7 +1198,7 @@ void SalonSystem::completeAppointment(string apptID){
 };
 //case 4 -view an appointmnet
 void SalonSystem::viewAppointment(string apptID) const{
-    Appointment* a = findAppointment(apptID);
+    Appointment* a = findAppointmentById(apptID);
     if (a) {
         a->displayAppt();
     } else {
@@ -1239,7 +1235,7 @@ void SalonSystem::viewAllAppointments() const {
 //cancel an appointment
 void SalonSystem::cancelAppointment(string apptID){
     //find appointment pointer
-    Appointment* appt=findAppointment(apptID);
+    Appointment* appt=findAppointmentById(apptID);
     //cancel appointment if id is found
     if (appt){
         appt->cancelAppt();
@@ -1253,7 +1249,7 @@ void SalonSystem::cancelAppointment(string apptID){
 };
 //print a receipt
 void SalonSystem::printReceipt(string apptID){
-    Appointment* appt = findAppointment(apptID);
+    Appointment* appt = findAppointmentById(apptID);
      if (appt){        
         cout << "printing receipt for an appointment " << apptID << endl;
         appt->generateReceipt(_businessName, _businessID);        
@@ -1304,9 +1300,20 @@ void SalonSystem::displayDocs(string fileName) {
     }
 }
 
+//FIND FUNCTIONS
+//Find by name
+//finding a customer by name
+Customer* SalonSystem::findCustomer(string name) const{
+    for (auto customer : _customers) {
+        if (customer->getName() == name){
+        return customer;
+    }
+}
+    return nullptr;
+}
 //finding a service by name
 Service* SalonSystem::findService(string name) const{
-    //looping through the vector of pointers that point to  to find the right name
+    //looping through the vector of pointers to find the name
     for (auto service: _services) {        
         if (service->getName() == name) {
             return service;
@@ -1317,7 +1324,7 @@ Service* SalonSystem::findService(string name) const{
 }
 //finding a product by name
 Product* SalonSystem::findProduct(string name) const{
-    //looping through the vector of pointers that point to products
+    //looping through the vector of pointers to find the name
     for (auto product : _products) {        
         if (product->getName() == name) {
             return product;
@@ -1326,9 +1333,41 @@ Product* SalonSystem::findProduct(string name) const{
     //return nullptr if there is no such name
     return nullptr; 
 }
+//find by ID
+//finding a customer by id
+Customer* SalonSystem::findCustomerById(string id) const{
+    for (auto customer : _customers) {
+        if (customer->getID() == id){
+        return customer;
+    }
+}
+    return nullptr;
+}
+//finding a service by id
+Service* SalonSystem::findServiceById(string id) const{
+    //looping through the vector of pointers to find the id
+    for (auto service: _services) {        
+        if (service->getID() == id) {
+            return service;
+        }
+    }
+    //return nullptr if there is no such id
+    return nullptr; 
+}
+//finding a product by id
+Product* SalonSystem::findProductById(string id) const{
+    //looping through the vector of pointers to find the id
+    for (auto product: _products) {        
+        if (product->getID() == id) {
+            return product;
+        }
+    }
+    //return nullptr if there is no such id
+    return nullptr; 
+}
 
 //finding an appointment by id
-Appointment* SalonSystem::findAppointment(string id) const {
+Appointment* SalonSystem::findAppointmentById(string id) const {
     //looping through the vector of pointers that point to appointments to find the right id
     for (auto appt : _appointments) {        
         if (appt->getID() == id) {
@@ -1338,18 +1377,10 @@ Appointment* SalonSystem::findAppointment(string id) const {
     //return nullptr if there is no such id
     return nullptr; 
 }
-//finding a customer by name
-Customer* SalonSystem::findCustomer(string name) const{
-    for (auto customer : _customers) {
-        if (customer->getName() == name){
-        return customer;
-    }
-}
-    return nullptr;
-}
 
 
-//save functions
+
+//SAVE FUNCTIONS
 //saving all data
 void SalonSystem::saveData() {
     // call save functions    
@@ -1485,7 +1516,7 @@ void SalonSystem::saveAppointments() {
     }
     outFile.close();
 }
-
+//LOAD FUNCTIONS
 //load all data
 void SalonSystem::loadData() {
     cout << "Loading system data..." << endl;
@@ -1647,8 +1678,9 @@ void SalonSystem::manageBusinessDetails() {
     cout << "Would you like to update business details? y/n " << endl;
     char answer;
     cin >> answer;
-    cin.ignore(1000, '\n');
-    if (tolower(answer) == 'y') {
+    clearBuffer();
+    if (tolower(answer) == 'y')
+    {
         _businessName = getRequiredInput("Enter New Business Name: ");
         _businessID = getRequiredInput("Enter New Business ID: ");
         
@@ -1663,8 +1695,8 @@ void SalonSystem::manageBusinessDetails() {
         _businessAddress = getRequiredInput("Enter New Business Address: ");
 
         saveData(); // or saveBusinessConfig()
-        cout << "\n[Success] Business details updated and saved!" << endl;
-        }
+        cout << "\nBusiness details updated and saved!" << endl;
+    }
     }
 
 
@@ -1688,15 +1720,4 @@ string SalonSystem::getRequiredInput(string prompt) {
         cout << "Error: This field cannot be empty. Please try again." << endl;
     }
 }
-template <typename T>
-T getValidInput(string prompt) {
-    T value;
-    cout << prompt;
-    while (!(cin >> value)) {
-        cout << "Invalid input! Please enter a numeric value: ";
-        cin.clear(); // Reset error flags
-        cin.ignore(1000, '\n'); // Clear the "trash" from the buffer
-    }
-    cin.ignore(1000, '\n'); // Clear the newline so the next getline() works
-    return value;
-}
+

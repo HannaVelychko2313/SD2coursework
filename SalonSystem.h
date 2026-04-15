@@ -120,8 +120,11 @@ public:
     Customer* findCustomer(std::string name) const;
     Service* findService(std::string name) const;
     Product* findProduct(std::string name)const;
-    //finding appointment by ID
-    Appointment* findAppointment(std::string id) const;
+    //finding customer, service, product, appointment by ID
+    Customer* findCustomerById(std::string id) const;
+    Service* findServiceById(std::string id) const;
+    Product* findProductById(std::string id)const;
+    Appointment* findAppointmentById(std::string id) const;
 
     // loading data from the file and saving data to the file
     void loadData(); // call at startup
