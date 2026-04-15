@@ -122,9 +122,9 @@ void SalonSystem::displayAdminMenu(){
     cout << "Press 6 to manage business details" << endl;
     cout << "Press 7 to view financial documentation" << endl;
     cout << "Press 0 to save and exit" << endl;
-    cout << "Please make your choice: ";
-    cin >> adminChoice;
-    clearBuffer();
+    
+    //make sure the input for adminChoice is numeric
+    adminChoice = getNumericInput<int>("Please make your choice: ");
     // switch for cases
     switch (adminChoice) {
             case 1:
@@ -163,7 +163,9 @@ void SalonSystem::displayAdminMenu(){
                 saveData();
                 break;
             default:
-                cout << "Invalid choice. Please try again." << endl;
+                cout << "Invalid number. Please enter 0-7." << endl;
+                clearBuffer();
+                break;
         }
     }
 }
@@ -177,9 +179,9 @@ void SalonSystem::displayStaffMenu(){
     cout << "Press 3 to manage products" << endl;
     cout << "Press 4 to manage appointments" << endl;
     cout << "Press 0 to save and exit" << endl;
-    cout << "Please make your choice: ";
-    cin >> staffChoice;
-    clearBuffer();
+     //make sure the input for staffChoice is numeric
+    staffChoice = getNumericInput<int>("Please make your choice: ");
+    
     // switch for cases
     switch (staffChoice) {
             case 1:
@@ -211,8 +213,9 @@ void SalonSystem::displayStaffMenu(){
                 saveData();
                 break;
             default:
-                cout << "Invalid choice. Please try again." << endl;
-        }
+                cout << "Invalid number. Please enter 0-4." << endl;
+                break;
+            }
     }
     }
 
@@ -230,12 +233,9 @@ void SalonSystem::displayAdminCustomerMenu (){
         cout << "Press 5 to delete a customer" << endl;
         cout << "Press 6 to view customer appointments" << endl;
         cout << "Press 0 to go back to admin menu" << endl;
-        cout << "Please make your choice: " << endl;
-        
-        cin >> adminChoice;
-
-        clearBuffer();
-
+       
+         //make sure the input for adminChoice is numeric
+        adminChoice = getNumericInput<int>("Please make your choice: ");
         // switch for menu cases
         switch (adminChoice)
         {
@@ -289,7 +289,6 @@ void SalonSystem::displayAdminCustomerMenu (){
             }
         }
         break;
-
         //case 6 see all customer's appointments
         case 6:
         {   string name;
@@ -304,8 +303,8 @@ void SalonSystem::displayAdminCustomerMenu (){
             return;
         //default case
         default: 
-            cout << "Invalid input. " << endl;
-        break;
+            cout << "Invalid number. Please enter 0-6."<< endl;
+            break;
 
         }//end of switch
     }//end of while
@@ -315,8 +314,8 @@ void SalonSystem::displayAdminCustomerMenu (){
 //third-level menu for staff customer management
 
 void SalonSystem::displayStaffCustomerMenu (){
-    int adminChoice = -1;
-    while (adminChoice !=0){
+    int staffChoice = -1;
+    while (staffChoice !=0){
         cout << "\n-----WELCOME TO THE STAFF CUSTOMER MANAGEMENT-----" << endl;
         cout << "Press 1 to add a new customer" << endl;
         cout << "Press 2 to update customer info" << endl;
@@ -324,15 +323,11 @@ void SalonSystem::displayStaffCustomerMenu (){
         cout << "Press 4 to view all customers" << endl;
         cout << "Press 5 to view customer appointments" << endl;
         cout << "Press 0 to go back to staff menu" << endl;
-        cout << "Please make your choice: " << endl;
-        
-        cin >> adminChoice;
-
-        // clear buffer
-        clearBuffer();
+        //make sure the input for adminChoice is numeric
+        staffChoice = getNumericInput<int>("Please make your choice: ");
 
         // switch for menu cases
-        switch (adminChoice)
+        switch (staffChoice)
         {
         case 1:
         {
@@ -379,8 +374,9 @@ void SalonSystem::displayStaffCustomerMenu (){
             return;
         //default case
         default: 
-            cout << "Invalid input. " << endl;
-        break;
+            cout << "Invalid number. Please enter 0-5." << endl;
+            break;
+        
 
         }//end of switch
     }//end of while
@@ -398,12 +394,8 @@ void SalonSystem::displayAdminServiceMenu (){
         cout << "Press 4 to view all services" << endl;
         cout << "Press 5 to delete a service" << endl;
         cout << "Press 0 to go back to admin menu" << endl;
-        cout << "Please make your choice: " << endl;
-        
-        cin >> adminChoice;
-
-        cin.ignore(1000, '\n'); // Clear buffer
-
+         //make sure the input for adminChoice is numeric
+        adminChoice = getNumericInput<int>("Please make your choice: ");
         // switch for menu cases
         switch (adminChoice)
         {
@@ -468,9 +460,8 @@ void SalonSystem::displayAdminServiceMenu (){
             return;
         //default case
         default: 
-            cout << "Invalid input. Please try again" << endl;
-        break;
-
+            cout << "Invalid number. Please enter 0-5." << endl;          
+            break;
         }//end of switch
     }//end of while
 }//end of functiom
@@ -482,11 +473,8 @@ void SalonSystem::displayStaffServiceMenu (){
         cout << "Press 1 to view a service" << endl;
         cout << "Press 2 to view all services" << endl;
         cout << "Press 0 to go back to staff menu" << endl;
-        cout << "Please make your choice: " << endl;
-        
-        cin >> staffChoice;
-
-        cin.ignore(1000, '\n'); // Clear buffer
+         //make sure the input for staffChoice is numeric
+        staffChoice = getNumericInput<int>("Please make your choice: ");
 
         // switch for menu cases
         switch (staffChoice)
@@ -514,9 +502,8 @@ void SalonSystem::displayStaffServiceMenu (){
             return;
         //default case
         default: 
-            cout << "Invalid input. Please try again" << endl;
-        break;
-
+            cout << "Invalid number. Please enter 0-2." << endl;         
+            break;
         }//end of switch
     }//end of while
 }//end of functiom
@@ -532,11 +519,8 @@ void SalonSystem::displayAdminProductMenu (){
         cout << "Press 4 to view all poducts" << endl;
         cout << "Press 5 to delete a product" << endl;
         cout << "Press 0 to go back to admin menu" << endl;
-        cout << "Please make your choice: " << endl;
-        
-        cin >> adminChoice;
-
-        clearBuffer(); // Clear buffer
+         //make sure the input for adminChoice is numeric
+        adminChoice = getNumericInput<int>("Please make your choice: ");
 
         // switch for menu cases
         switch (adminChoice){
@@ -604,8 +588,10 @@ void SalonSystem::displayAdminProductMenu (){
             return;
         //default case
         default: 
-            cout << "Invalid input. Please try again" << endl;
-        break;
+            cout << "Invalid number. Please enter 0-5." << endl;
+          
+            break;
+        
 
         }//end of switch
     }//end of while
@@ -619,12 +605,8 @@ void SalonSystem::displayStaffProductMenu (){
         cout << "Press 2 to view a product" << endl;
         cout << "Press 3 to view all poducts" << endl;        
         cout << "Press 0 to go back to staff menu" << endl;
-        cout << "Please make your choice: " << endl;
-        
-        cin >> staffChoice;
-
-        cin.ignore(1000, '\n'); // Clear buffer
-
+         //make sure the input for staffChoice is numeric
+        staffChoice = getNumericInput<int>("Please make your choice: ");
         // switch for menu cases
         switch (staffChoice)
         {
@@ -661,7 +643,7 @@ void SalonSystem::displayStaffProductMenu (){
             return;
         //default case
         default: 
-            cout << "Invalid input. Please try again" << endl;
+            cout << "Invalid number. Please enter 0-3."<< endl;
         break;
 
         }//end of switch
@@ -671,8 +653,8 @@ void SalonSystem::displayStaffProductMenu (){
 
 //third-level menu for staff appointment management
 void SalonSystem::displayStaffAppointmentMenu (){
-    int adminChoice = -1;
-    while (adminChoice !=0){
+    int staffChoice = -1;
+    while (staffChoice !=0){
         cout << "\n-----WELCOME TO THE STAFF APPOINTMENT MANAGEMENT-----" << endl;
         cout << "Press 1 to schedule an appointment" << endl;
         cout << "Press 2 to reschedule appointment" << endl;
@@ -683,14 +665,11 @@ void SalonSystem::displayStaffAppointmentMenu (){
         cout << "Press 7 to cancel an appointment" << endl;
         cout << "Press 8 to print a receipt for an appointment" << endl;
         cout << "Press 0 to go back to staff menu" << endl;
-        cout << "Please make your choice: " << endl;
-        
-        cin >> adminChoice;
-
-        cin.ignore(1000, '\n'); // Clear buffer
+         //make sure the input for adminChoice is numeric
+        staffChoice = getNumericInput<int>("Please make your choice: ");
 
         // switch for menu cases
-        switch (adminChoice)
+        switch (staffChoice)
         {
         //schedule an appointment
         case 1:
@@ -773,7 +752,7 @@ void SalonSystem::displayStaffAppointmentMenu (){
             return;
         //default case
         default: 
-            cout << "Invalid input. Please try again" << endl;
+            cout << "Invalid number. Please enter 0-8." << endl;
         break;
 
         }//end of switch

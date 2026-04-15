@@ -49,7 +49,10 @@ private:
     std::string getRequiredInput(std::string prompt);//checks the input
 //helper function for limits
 void clearBuffer() const {
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    //reset any error flags (e.g., if the user typed a letter instead of a number)
+    std::cin.clear();
+    //discard everything currently in the buffer until the next newline
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
 public:
@@ -130,24 +133,24 @@ public:
     void loadData(); // call at startup
     void saveData(); // call at shutdown
 
-    //template function for input validation
+    //template function for numeric input validation
     template <typename T>
     T getNumericInput(std::string prompt){
-        T value;
-        std::cout << prompt;
-        
-        while (!(std::cin >> value)) {
-            std::cout << "Invalid input! Please enter a numeric value: ";
-            std::cin.clear(); // clearing error flags
+        T value;  
+        //input validation-if it is numeric
+        while (true) {
+            std::cout << prompt;
+            // user input validation
+            if (std::cin >> value) {
+                clearBuffer(); // clean up the newline for the next call
+                return value;  
+            }
+            //if the user typed a letter/symbol
+            std::cout << "Invalid input! Please enter a numeric value."<<std::endl;
             clearBuffer();
-            // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard bad input
+            
         }
         
-        //cleaning up the newline character left in the buffer so getline() works next
-        //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        
-        clearBuffer();
-        return value;
     }
 };
 
