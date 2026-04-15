@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "Validator.h"
 
 class Customer {
 private:

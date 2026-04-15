@@ -3,6 +3,7 @@
 
 #include "Item.h" 
 #include <string>
+#include "Validator.h"
 
 class Product : public Item {
 private:

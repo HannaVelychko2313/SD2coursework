@@ -10,9 +10,9 @@ Product::Product(string id, string name, double price, int stock, string expiryD
     setStock(stock);
     setExpiryDate(expiryDate);
 }
-//setter for stock
+//setter for stock-check if the stock is negative
 bool Product::setStock(int stock){
-    if (stock<0){
+    if (!Validator::isNonNegative(stock)){
         throw invalid_argument("Stock cannot be negative");
     }
     else
@@ -23,10 +23,13 @@ bool Product::setStock(int stock){
 }
 //setter for expiry date
 void Product::setExpiryDate(string date) {
-    // Regex check for DD-MM-YYYY
-    regex pattern("^\\d{2}-\\d{2}-\\d{4}$");
-    if (!regex_match(date, pattern)) {
+    //check the date format    
+    if (!Validator::isValidDate(date)) {        
         throw invalid_argument("Invalid date. Please use DD-MM-YYYY");
+    }
+    // check that the date is not in the past
+    if (!Validator::isFutureDate(date)) {
+        throw invalid_argument("Date cannot be in the past.");
     }
     _expiryDate = date;
 }

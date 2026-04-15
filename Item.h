@@ -2,6 +2,7 @@
 #define ITEM_H
 
 #include <string>
+#include "Validator.h"
 
 class Item {
 protected:

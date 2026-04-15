@@ -19,6 +19,10 @@ void Appointment::setDate(string date){
     if (!regex_match(date, pattern)) {
         throw invalid_argument("Invalid date. Please use DD-MM-YYYY");
     }
+    // check that the date is not in the past
+    if (!Validator::isFutureDate(date)) {
+        throw invalid_argument("Date cannot be in the past.");
+    }
     _date = date;
 }
 void Appointment::setTime(string time){

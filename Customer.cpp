@@ -1,5 +1,4 @@
 #include "Customer.h"
-#include <regex>
 #include <stdexcept>
 #include <iostream>
 
@@ -12,27 +11,24 @@ Customer::Customer(string id, string name, string phone)
     setPhone(phone);
 
 }
-//setters with regex input validation
+//setters with input validation
 bool Customer::setName(string name) {
-    //regex for name-characters, spaces, -, ' are allowed
-    regex namePattern("^[A-Za-z]+(?:[ '-][A-Za-z]+)*$");
-    if (regex_match(name, namePattern)) {
+    //check if name is valid
+    if (Validator::isValidName(name)) {
         _name = name;
         return true;
     }else {
         throw invalid_argument("Invalid Name. Use letters only.");
-}
+    }
     }
     
 bool Customer::setPhone(string phone) {
-    // regex for 10 to 12 digits
-    regex phonePattern("^[0-9]{10,12}$");
-
-    if (regex_match(phone, phonePattern)) {
+    //check if the phone is valid
+    if (Validator::isValidPhone(phone)) {
         _phone = phone;
         return true;
     }else{
-         throw invalid_argument(" Invalid Phone. Enter 10-12 digits without spaces/dashes.");
+         throw invalid_argument("Invalid Phone. Enter 10-12 digits without spaces/dashes.");
 }
     }
    

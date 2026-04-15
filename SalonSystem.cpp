@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include "Validator.h"
 
 using namespace std;
 
@@ -295,8 +296,7 @@ void SalonSystem::displayAdminCustomerMenu (){
             cout << "Please enter customer name: " << endl;
             getline(cin, name);
             viewCustomerAppts(name);
-        }
-    
+        }    
         break;
         //case 0 to return to admin menu
         case 0:
@@ -1688,7 +1688,7 @@ void SalonSystem::manageBusinessDetails() {
         while (true) {
             cout << "Enter New Business Phone: ";
             getline(cin, _businessPhone);
-            if (isValidPhone(_businessPhone)) break;
+            if (Validator::isValidPhone(_businessPhone)) break;
             cout << "Error: Invalid phone format. Use digits only (min 10)." << endl;
         }
 
@@ -1699,22 +1699,12 @@ void SalonSystem::manageBusinessDetails() {
     }
     }
 
-
-
-
-bool SalonSystem::isValidPhone(const string& phone) {
-    if (phone.length() < 10 || phone.length() > 15) return false;
-    for (char const &c : phone) {
-        if (!isdigit(c) && c != ' ' && c != '+') return false; 
-    }
-    return true;
-}
 string SalonSystem::getRequiredInput(string prompt) {
     string input;
     while (true) {
         cout << prompt;
         getline(cin, input);
-        if (!input.empty()) {
+        if (Validator::isNotEmpty(input)) {
             return input;
         }
         cout << "Error: This field cannot be empty. Please try again." << endl;

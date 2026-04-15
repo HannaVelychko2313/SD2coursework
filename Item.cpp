@@ -15,21 +15,20 @@ Item::Item(string id, string name, double price) {
 Item::~Item() {}
 
 void Item::setID(string id) {
-    if (id.empty()) throw std::invalid_argument("ID cannot be empty");
+    if (!Validator::isNotEmpty(id)){
+        throw std::invalid_argument("ID cannot be empty");
+    }
     _id = id;
 }
 
-#include <regex>
-
 void Item::setName(std::string name) {
-    // regex pattern that allows letters, numbers, spaces, hyphens, and apostrophes, excludes the pipe '|'
-    std::regex pattern("^[A-Za-z0-9]+(?:[ '-][A-Za-z0-9]+)*$");
-
-    if (name.empty()) {
+    
+    //check if name is not empty
+    if (!Validator::isNotEmpty(name)) {
         throw invalid_argument("Name cannot be empty");
     }
-    
-    if (!std::regex_match(name, pattern)) {
+    //check if it is valid name
+    if (!Validator::isValidItemName(name)) {
         throw invalid_argument("Invalid name: Use only alphanumeric characters, spaces, or hyphens.");
     }
 
@@ -37,8 +36,8 @@ void Item::setName(std::string name) {
 }
 //set price
 bool Item::setPrice(double price) {
-    if (price < 0) {
-        throw std::invalid_argument("Price cannot be negative");
+    if (!Validator::isPositive(price)) {
+        throw std::invalid_argument("Price cannot be negative or 0");
     }else{
          _price = price;
     

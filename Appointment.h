@@ -5,6 +5,7 @@
 #include "Customer.h"
 #include "Service.h"
 #include "Product.h"
+#include "Validator.h"
 //a list of pre-defined values
 enum class ApptStatus { SCHEDULED, COMPLETED, CANCELLED };
 

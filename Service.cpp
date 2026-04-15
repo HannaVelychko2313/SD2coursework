@@ -11,13 +11,12 @@ Service::Service(string id, string name, double price, double duration)
 }
 //setter for duration
 void Service::setDuration(double duration) {
-    if (duration <= 0) {
+     if (!Validator::isPositive(duration)) {
         throw invalid_argument("Service duration must be greater than zero.");
     }
-    if (duration > 8.0) {
-        throw invalid_argument("Service duration cannot exceed 8 hours.");
-    }
-    
+    if (!Validator::isValidDuration(duration)) {
+        throw invalid_argument("Service duration cannot exceed 5 hours.");
+    } 
     _duration = duration;
     }
 

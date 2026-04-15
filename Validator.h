@@ -80,7 +80,7 @@ public:
         return duration <= 5.0;
     }
     //Item name validation
-    static bool isValidItemName(string name){
+    static bool isValidItemName(std::string name){
     // regex pattern that allows letters, numbers, spaces, hyphens, and apostrophes, excludes the pipe '|'
     const std::regex pattern("^[A-Za-z0-9]+(?:[ '-][A-Za-z0-9]+)*$");
     return std::regex_match(name, pattern);
