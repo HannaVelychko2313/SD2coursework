@@ -969,7 +969,7 @@ void SalonSystem::addProduct(string name, double price, int stock, string expiry
     newProductPtr = new Product(id, name, price, stock, expiryDate);
     //pushing the pointer to the vector
     _products.push_back(newProductPtr);
-    // let the user know that the product has been scheduled
+    // let the user know that the product has been added
         cout << "Product" << id<<"  "<<name<< " has been added successfully!" << endl;
     saveProducts();
     } 

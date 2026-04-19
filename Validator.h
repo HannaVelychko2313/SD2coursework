@@ -10,7 +10,7 @@
 
 class Validator {
 public:
-    // check if string is not empty
+    // check that string is not empty
     static bool isNotEmpty(const std::string& input) {
         return !input.empty();
     }
@@ -39,7 +39,7 @@ public:
         return !ss.fail();
     }
 
-    // chack that the date is not in the past
+    // check that the date is not in the past
     static bool isFutureDate(const std::string& dateStr) {
         // Get current system time (midnight today)
         auto now = std::chrono::system_clock::now();
@@ -57,6 +57,15 @@ public:
         
         std::time_t input_time = std::mktime(&input_tm);
         return input_time >= startOfToday;
+    }
+    //time validation
+    static bool isValidTime(std::string timeStr){
+        // Regex check for HH:MM starting at 9:00 and finishing at 18:00
+        std::regex pattern("^((0?9|1[0-7]):[0-5][0-9]|18:00)$");
+        if (!std::regex_match(timeStr, pattern)){
+        return false;
+        }
+        return true;
     }
 
     // function overloading

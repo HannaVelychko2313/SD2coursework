@@ -14,9 +14,8 @@ Appointment::Appointment(string id, string date, string time, Customer* c, Servi
 }
 //setters
 void Appointment::setDate(string date){
-    // Regex check for DD-MM-YYYY
-    regex pattern("^\\d{2}-\\d{2}-\\d{4}$");
-    if (!regex_match(date, pattern)) {
+    // check for DD-MM-YYYY
+    if (!Validator::isValidDate(date)) {
         throw invalid_argument("Invalid date. Please use DD-MM-YYYY");
     }
     // check that the date is not in the past
@@ -26,9 +25,8 @@ void Appointment::setDate(string date){
     _date = date;
 }
 void Appointment::setTime(string time){
-    // Regex check for HH:MM starting at 9:00 and finishing at 18:00
-    regex pattern("^((0?9|1[0-7]):[0-5][0-9]|18:00)$");
-    if (!regex_match(time, pattern)) {
+    //check if time is valid
+    if (!Validator::isValidTime(time)) {
         throw invalid_argument("Invalid time. Please use HH:MM");
     }
     _time = time;

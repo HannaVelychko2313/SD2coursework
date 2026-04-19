@@ -134,6 +134,7 @@ public:
     void saveData(); // call at shutdown
 
     //template function for numeric input validation
+    //example of static(compiletime) polymorphism-works both for double and int
     template <typename T>
     T getNumericInput(std::string prompt){
         T value;  

@@ -24,7 +24,7 @@ public:
     std::string getID() const;
     std::string getName() const;
     double getPrice() const;
-    //pure virtual function
+    //pure virtual function - example of dynamic polymorphism
     virtual void showInfo() const = 0; 
 };
 
